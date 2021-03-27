@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:jpstrack/ui/nav_drawer.dart';
-
+///
+/// The main page of the application. Shows current lat/long, and underneath all,
+/// a map view showing what's already in OSM, to avoid wasted effort.
+///
 class MapScreen extends StatefulWidget {
   final String title;
 
@@ -15,11 +18,15 @@ class MapScreen extends StatefulWidget {
 
 class _MapState extends State<MapScreen> {
 
-  double lat = 0;
-  double lng = 0;
-  double zoom = 10;
+  double lat = 51.48;
+  double lng = 0.0;
+  double zoom = 13;
 
   Widget build(BuildContext context) {
+    MapController controller = MapController();
+    controller.mapEventStream.listen((event) {
+      //
+    });
     return Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -46,15 +53,20 @@ class _MapState extends State<MapScreen> {
                     Text(lng.toString()),
                   ]
               ),
+              //
+              // The Map!
+              //
               Expanded(child: FlutterMap(
                 options: MapOptions(
                   center: LatLng(lat, lng),
                   zoom: zoom,
                 ),
+                mapController: controller,
                 layers: [
                   new TileLayerOptions(
                       urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c']
+                      subdomains: ['a', 'b', 'c'],
+                      tileProvider: const CachedTileProvider(),
                   ),
                   new MarkerLayerOptions(
                     markers: [
@@ -79,6 +91,17 @@ class _MapState extends State<MapScreen> {
           tooltip: 'Annotate',
           child: Icon(Icons.add),
         ),
+    );
+  }
+}
+
+class CachedTileProvider extends TileProvider {
+  const CachedTileProvider();
+  @override
+  ImageProvider getImage(Coords<num> coords, TileLayerOptions options) {
+    return CachedNetworkImageProvider(
+      getTileUrl(coords, options),
+      //Now you can set options that determine how the image gets cached via whichever plugin you use.
     );
   }
 }
