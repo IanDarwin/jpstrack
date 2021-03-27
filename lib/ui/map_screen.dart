@@ -36,7 +36,11 @@ class _MapState extends State<MapScreen> {
                         onPressed: () {  },
                         child: Text("Start")),
                     ElevatedButton(onPressed: () {  },
-                        child: Text("Stop"))
+                        child: Text("Stop")),
+                    Text("Lat"),
+                    Text(lat.toString()),
+                    Text("Lon"),
+                    Text(lng.toString()),
                   ]
               ),
               Expanded(child: FlutterMap(
