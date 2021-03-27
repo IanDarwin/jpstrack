@@ -23,5 +23,13 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
+  assets:
+    - images/logo.png
+
+flutter_icons:
+  android: true
+  ios: true
+  remove-alpha_ios: true
+  image_path: "images/logo.png"
+

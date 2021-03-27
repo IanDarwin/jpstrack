@@ -25,8 +25,11 @@ class _MapState extends State<MapScreen> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
+            actions: <Widget>[
+              new IconButton(icon: const Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer()),
+            ],
         ),
-        drawer: NavDrawer(),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

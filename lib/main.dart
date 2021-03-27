@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jpstrack/ui/nav_drawer.dart';
 
 import 'ui/map_screen.dart';
 
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: MapScreen(title: 'JPSTrack Home Page'),
+      home: Scaffold(
+      body: MapScreen(title: 'JPSTrack Home Page'),
+      drawer: NavDrawer(),
+    )
     );
   }
 }
