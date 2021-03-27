@@ -1,4 +1,4 @@
-package jpstrack.android.jpstrack_android
+package jpstrack.android
 
 import io.flutter.embedding.android.FlutterActivity
 
