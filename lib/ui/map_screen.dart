@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -18,19 +19,52 @@ class MapScreen extends StatefulWidget {
 
 class _MapState extends State<MapScreen> {
 
-  double lat = 51.48;
-  double lng = 0.0;
   double zoom = 13;
+  MapController controller = MapController();
+  Location location = new Location();
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+  LocationData _locationData;
+  Stream<LocationData> _str;
+
+  @override
+  void initState() {
+
+    _initLocation();
+
+    super.initState();
+  }
+
+  void _initLocation() async {
+    Map<String, dynamic> map = {"latitude":0, "longitude":0};
+    _locationData = LocationData.fromMap(map);
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    //_locationData = await location.getLocation();
+    location.changeSettings(
+        accuracy: LocationAccuracy.high,
+      interval: 10000,
+      distanceFilter: 5.0);
+  }
 
   Widget build(BuildContext context) {
-    MapController controller = MapController();
-    controller.mapEventStream.listen((event) {
-      //
-    });
+
+    controller.mapEventStream.listen((event) {});
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
             actions: <Widget>[
               new IconButton(icon: const Icon(Icons.menu),
@@ -43,14 +77,29 @@ class _MapState extends State<MapScreen> {
               Row(
                   children: [
                     ElevatedButton(
-                        onPressed: () {  },
-                        child: Text("Start")),
-                    ElevatedButton(onPressed: () {  },
-                        child: Text("Stop")),
-                    Text("Lat"),
-                    Text(lat.toString()),
-                    Text("Lon"),
-                    Text(lng.toString()),
+                        child: Text("Start"),
+                        onPressed: () {
+                          print("Starting to listen for updates");
+                          location.enableBackgroundMode(enable: true);
+                          _str = location.onLocationChanged;
+                          _str.listen((LocationData loc) {
+                            print("Location $loc");
+                            // controller.move(locationDataToLatLng(loc), zoom);
+                            setState(() => _locationData = loc);
+                          },
+                          );}
+                          ),
+                    ElevatedButton(
+                      child: Text("Stop"),
+                      onPressed: () {
+                        print("Stopping...");
+                        // _str.close(); // ??
+                      },
+                    ),
+                    // Text("Lat"),
+                    // Text(lat.toString()),
+                    // Text("Lon"),
+                    // Text(lng.toString()),
                   ]
               ),
               //
@@ -58,7 +107,7 @@ class _MapState extends State<MapScreen> {
               //
               Expanded(child: FlutterMap(
                 options: MapOptions(
-                  center: LatLng(lat, lng),
+                  center: _locationDataToLatLng(_locationData),
                   zoom: zoom,
                 ),
                 mapController: controller,
@@ -73,7 +122,7 @@ class _MapState extends State<MapScreen> {
                       new Marker(
                         width: 60.0,
                         height: 60.0,
-                        point: new LatLng(lat, lng),
+                        point: _locationDataToLatLng(_locationData),
                         builder: (context) =>
                         new Container(
                           child: new FlutterLogo(),
@@ -92,6 +141,12 @@ class _MapState extends State<MapScreen> {
           child: Icon(Icons.add),
         ),
     );
+  }
+
+  LatLng _locationDataToLatLng(LocationData loc) {
+    var lat = loc.latitude;
+    var lon = loc.longitude;
+    return LatLng(lat, lon);
   }
 }
 
