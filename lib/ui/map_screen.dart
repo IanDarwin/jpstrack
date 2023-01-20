@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:location/location.dart';
 
 ///
 /// The main page of the application. Shows current lat/long, and underneath all,
