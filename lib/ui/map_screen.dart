@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:jpstrack/generated/l10n.dart';
 
 ///
 /// The main page of the application. Shows current lat/long, and underneath all,
@@ -68,46 +69,45 @@ class _MapState extends State<MapScreen> {
               onPressed: () => Scaffold.of(context).openDrawer()),
         ],
       ),
-      body:
-
-      FlutterMap(
+      body: FlutterMap(
         options: MapOptions(
           center: _locationDataToLatLng(_locationData),
           zoom: zoom,
         ),
         mapController: controller,
+        nonRotatedChildren: [
+          Row(children: [
+            ElevatedButton(
+                child: Text(S.of(context).start),
+                onPressed: () {
+                  debugPrint("Starting to listen for updates");
+                  location.enableBackgroundMode(enable: true);
+                  _str = location.onLocationChanged;
+                  _str.listen((LocationData loc) {
+                    print("Location $loc");
+                    // controller.move(locationDataToLatLng(loc), zoom);
+                    setState(() => _locationData = loc);
+                  },
+                  );}
+            ),
+            ElevatedButton(
+              child: Text(S.of(context).stop),
+              onPressed: () {
+                debugPrint("Stopping...");
+                // _str.close(); // ??
+              },
+            ),
+            Text("Lat"),
+            Text("X.XXXXX"/*lat.toString()*/),
+            Text("Lon"),
+            Text("X.XXXXX"/*lon.toString()*/),
+          ]
+          ),
+        ],
         children: [
           TileLayer(
             urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-          ),
-          Row(
-              children: [
-                ElevatedButton(
-                    child: Text(S.of(context).start),
-                    onPressed: () {
-                      debugPrint("Starting to listen for updates");
-                      location.enableBackgroundMode(enable: true);
-                      _str = location.onLocationChanged;
-                      _str.listen((LocationData loc) {
-                        print("Location $loc");
-                        // controller.move(locationDataToLatLng(loc), zoom);
-                        setState(() => _locationData = loc);
-                      },
-                      );}
-                ),
-                ElevatedButton(
-                  child: Text(S.of(context).stop),
-                  onPressed: () {
-                    debugPrint("Stopping...");
-                    // _str.close(); // ??
-                  },
-                ),
-                // Text("Lat"),
-                // Text(lat.toString()),
-                // Text("Lon"),
-                // Text(lng.toString()),
-              ]
+            userAgentPackageName: 'com.darwinsys.jpstrack.devel',
           ),
         ],
       ),
