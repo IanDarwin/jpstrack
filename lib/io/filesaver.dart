@@ -18,7 +18,12 @@ final header =
     <trk>
     <src>Logged using jpstrack</src>
     <link href="http://darwinsys.com/jpstrack"><text>RejmiNet Group Inc.</text></link>
+    <trkseg>
     """;
+
+const trailer = """    </trkseg>
+  </trk>
+</gpx>""";
 
 class GPSFileSaver {
     String startingDir;
@@ -34,7 +39,6 @@ class GPSFileSaver {
         try {
             out = f.openWrite();
             out.writeln(header);
-            out.writeln("<trkseg>");
         } catch (e) {
             throw Exception("Can't create file $f: $e");
         }
@@ -55,9 +59,7 @@ class GPSFileSaver {
 
     /** Close the file, after outputting the trailing end tags  */
     endFile() {
-        out.writeln("</trkseg>");
-        out.writeln("</trk>");
-        out.writeln("</gpx>");
+        out.writeln(trailer);
         out.flush();
         out.close();
     }

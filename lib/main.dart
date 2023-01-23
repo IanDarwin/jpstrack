@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:jpstrack/ui/nav_drawer.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 import 'ui/map_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MapApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MapApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'JPSTrack',
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-      ),
-      home: Scaffold(
-      body: MapScreen(title: 'JPSTrack Home Page'),
-      drawer: NavDrawer(),
-    )
+        title: 'jpstrack',
+        theme: ThemeData(
+          primarySwatch: Colors.brown,
+        ),
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        home: Scaffold(
+          body: MapScreen(title: 'JpsTrack'),
+          drawer: NavDrawer(),
+        )
     );
   }
 }

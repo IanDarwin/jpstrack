@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
 ///
@@ -29,14 +28,12 @@ class _MapState extends State<MapScreen> {
 
   @override
   void initState() {
-
     _initLocation();
-
     super.initState();
   }
 
   void _initLocation() async {
-    Map<String, dynamic> map = {"latitude":0, "longitude":0};
+    Map<String, dynamic> map = {"latitude":0.0, "longitude":0.0};
     _locationData = LocationData.fromMap(map);
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -56,107 +53,78 @@ class _MapState extends State<MapScreen> {
     //_locationData = await location.getLocation();
     location.changeSettings(
         accuracy: LocationAccuracy.high,
-      interval: 10000,
-      distanceFilter: 5.0);
+        interval: 10000,
+        distanceFilter: 5.0);
   }
 
   Widget build(BuildContext context) {
-
-    controller.mapEventStream.listen((event) {});
+    debugPrint("In jpsTrack::MapState::build, locale is ${Localizations.localeOf(context)}");
+    controller.mapEventStream.listen((event) { debugPrint(event.toString()); });
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-            actions: <Widget>[
-              new IconButton(icon: const Icon(Icons.menu),
-                  onPressed: () => Scaffold.of(context).openDrawer()),
-            ],
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[
+          new IconButton(icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer()),
+        ],
+      ),
+      body:
+
+      FlutterMap(
+        options: MapOptions(
+          center: _locationDataToLatLng(_locationData),
+          zoom: zoom,
         ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                  children: [
-                    ElevatedButton(
-                        child: Text("Start"),
-                        onPressed: () {
-                          print("Starting to listen for updates");
-                          location.enableBackgroundMode(enable: true);
-                          _str = location.onLocationChanged;
-                          _str.listen((LocationData loc) {
-                            print("Location $loc");
-                            // controller.move(locationDataToLatLng(loc), zoom);
-                            setState(() => _locationData = loc);
-                          },
-                          );}
-                          ),
-                    ElevatedButton(
-                      child: Text("Stop"),
-                      onPressed: () {
-                        print("Stopping...");
-                        // _str.close(); // ??
+        mapController: controller,
+        children: [
+          Row(
+              children: [
+                ElevatedButton(
+                    child: Text("Start"),
+                    onPressed: () {
+                      print("Starting to listen for updates");
+                      location.enableBackgroundMode(enable: true);
+                      _str = location.onLocationChanged;
+                      _str.listen((LocationData loc) {
+                        print("Location $loc");
+                        // controller.move(locationDataToLatLng(loc), zoom);
+                        setState(() => _locationData = loc);
                       },
-                    ),
-                    // Text("Lat"),
-                    // Text(lat.toString()),
-                    // Text("Lon"),
-                    // Text(lng.toString()),
-                  ]
-              ),
-              //
-              // The Map!
-              //
-              Expanded(child: FlutterMap(
-                options: MapOptions(
-                  center: _locationDataToLatLng(_locationData),
-                  zoom: zoom,
+                      );}
                 ),
-                mapController: controller,
-                layers: [
-                  new TileLayerOptions(
-                      urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c'],
-                      tileProvider: const CachedTileProvider(),
-                  ),
-                  new MarkerLayerOptions(
-                    markers: [
-                      new Marker(
-                        width: 60.0,
-                        height: 60.0,
-                        point: _locationDataToLatLng(_locationData),
-                        builder: (context) =>
-                        new Container(
-                          child: new FlutterLogo(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              ),
-            ]
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () { },
-          tooltip: 'Annotate',
-          child: Icon(Icons.add),
-        ),
+                ElevatedButton(
+                  child: Text("Stop"),
+                  onPressed: () {
+                    print("Stopping...");
+                    // _str.close(); // ??
+                  },
+                ),
+                // Text("Lat"),
+                // Text(lat.toString()),
+                // Text("Lon"),
+                // Text(lng.toString()),
+              ]
+          ),
+          TileLayer(
+            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () { },
+        tooltip: 'Annotate',
+        child: Icon(Icons.add),
+      ),
     );
   }
 
   LatLng _locationDataToLatLng(LocationData loc) {
-    var lat = loc.latitude;
-    var lon = loc.longitude;
+    if (loc == null) {
+      return LatLng(0.0, 0.0);
+    }
+    var lat = loc.latitude??0;
+    var lon = loc.longitude??0;
     return LatLng(lat, lon);
-  }
-}
-
-class CachedTileProvider extends TileProvider {
-  const CachedTileProvider();
-  @override
-  ImageProvider getImage(Coords<num> coords, TileLayerOptions options) {
-    return CachedNetworkImageProvider(
-      getTileUrl(coords, options),
-      //Now you can set options that determine how the image gets cached via whichever plugin you use.
-    );
   }
 }
