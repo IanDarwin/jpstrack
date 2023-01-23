@@ -1,5 +1,7 @@
 {
   "@@locale": "es",
   "jpstrackHomePage": "JPSTrack Home Page",
-  "jpstrack": "JPSTrack"
+  "jpstrack": "JPSTrack",
+  "start": "Empecer",
+  "stop": "Terminar"
 }

@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "jpstrack" : MessageLookupByLibrary.simpleMessage("JPSTrack"),
-    "jpstrackHomePage" : MessageLookupByLibrary.simpleMessage("JPSTrack Home Page")
+    "jpstrackHomePage" : MessageLookupByLibrary.simpleMessage("JPSTrack Home Page"),
+    "start" : MessageLookupByLibrary.simpleMessage("Start"),
+    "stop" : MessageLookupByLibrary.simpleMessage("Stop")
   };
 }

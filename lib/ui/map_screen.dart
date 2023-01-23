@@ -77,12 +77,16 @@ class _MapState extends State<MapScreen> {
         ),
         mapController: controller,
         children: [
+          TileLayer(
+            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+          ),
           Row(
               children: [
                 ElevatedButton(
-                    child: Text("Start"),
+                    child: Text(S.of(context).start),
                     onPressed: () {
-                      print("Starting to listen for updates");
+                      debugPrint("Starting to listen for updates");
                       location.enableBackgroundMode(enable: true);
                       _str = location.onLocationChanged;
                       _str.listen((LocationData loc) {
@@ -93,9 +97,9 @@ class _MapState extends State<MapScreen> {
                       );}
                 ),
                 ElevatedButton(
-                  child: Text("Stop"),
+                  child: Text(S.of(context).stop),
                   onPressed: () {
-                    print("Stopping...");
+                    debugPrint("Stopping...");
                     // _str.close(); // ??
                   },
                 ),
@@ -104,10 +108,6 @@ class _MapState extends State<MapScreen> {
                 // Text("Lon"),
                 // Text(lng.toString()),
               ]
-          ),
-          TileLayer(
-            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            userAgentPackageName: 'dev.fleaflet.flutter_map.example',
           ),
         ],
       ),
