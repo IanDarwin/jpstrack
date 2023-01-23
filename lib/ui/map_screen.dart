@@ -103,6 +103,10 @@ class _MapState extends State<MapScreen> {
             Text("X.XXXXX"/*lon.toString()*/),
           ]
           ),
+          AttributionWidget.defaultWidget(
+            source: '© OpenStreetMap contributors',
+            onSourceTapped: () {},
+          ),
         ],
         children: [
           TileLayer(
