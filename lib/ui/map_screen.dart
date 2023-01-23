@@ -26,6 +26,7 @@ class _MapState extends State<MapScreen> {
   PermissionStatus _permissionGranted;
   LocationData _locationData;
   Stream<LocationData> _str;
+  var labelStyle = TextStyle(fontSize: 28, color: Colors.black45);
   var infoStyle = TextStyle(fontSize: 28);
 
   @override
@@ -56,6 +57,8 @@ class _MapState extends State<MapScreen> {
         accuracy: LocationAccuracy.high,
         interval: 10000,
         distanceFilter: 5.0);
+    // This doesn't appear to get any data
+    controller.mapEventStream.listen((event) {  debugPrint("Event: $event"); });
   }
 
   Widget build(BuildContext context) {
@@ -90,7 +93,15 @@ class _MapState extends State<MapScreen> {
                       // controller.move(locationDataToLatLng(loc), zoom);
                       setState(() => _locationData = loc);
                     },
-                    );}
+                    );
+                  }
+              ),
+              ElevatedButton(
+                child: Text(S.of(context).pause),
+                onPressed: () {
+                  debugPrint("Stopping...");
+                  // _str.close(); // ??
+                },
               ),
               ElevatedButton(
                 child: Text(S.of(context).stop),
@@ -98,15 +109,15 @@ class _MapState extends State<MapScreen> {
                   debugPrint("Stopping...");
                   // _str.close(); // ??
                 },
-              ),
+              )
             ]),
             Row(children:[
-              Text(S.of(context).latitude, style: infoStyle),
+              Text(S.of(context).latitude, style: labelStyle),
               Text(' '),
               Text("X.XXXXX"/*lat.toString()*/, style: infoStyle),
             ]),
             Row(children:[
-              Text(S.of(context).longitude, style: infoStyle),
+              Text(S.of(context).longitude, style: labelStyle),
               Text(' '),
               Text("X.XXXXX"/*lon.toString()*/, style: infoStyle),
             ]),
@@ -124,9 +135,9 @@ class _MapState extends State<MapScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () { },
+        onPressed: () {debugPrint("Would Re-center map on GPS loc");  },
         tooltip: 'Annotate',
-        child: Icon(Icons.add),
+        child: Icon(Icons.gps_fixed_sharp),
       ),
     );
   }

@@ -3,6 +3,7 @@
   "jpstrackHomePage": "JPSTrack Home Page",
   "jpstrack": "JPSTrack",
   "start": "Start",
+  "pause": "Pause",
   "stop": "Stop",
   "latitude": "Latitude",
   "longitude": "Longitude"

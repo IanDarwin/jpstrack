@@ -65,6 +65,16 @@ class S {
     );
   }
 
+  /// `Pause`
+  String get pause {
+    return Intl.message(
+      'Pause',
+      name: 'pause',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Stop`
   String get stop {
     return Intl.message(

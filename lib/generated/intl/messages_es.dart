@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "jpstrackHomePage" : MessageLookupByLibrary.simpleMessage("JPSTrack Home Page"),
     "latitude" : MessageLookupByLibrary.simpleMessage("Latitude"),
     "longitude" : MessageLookupByLibrary.simpleMessage("Longitude"),
+    "pause" : MessageLookupByLibrary.simpleMessage("Pause"),
     "start" : MessageLookupByLibrary.simpleMessage("Empecer"),
     "stop" : MessageLookupByLibrary.simpleMessage("Terminar")
   };
