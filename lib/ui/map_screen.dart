@@ -19,13 +19,14 @@ class MapScreen extends StatefulWidget {
 
 class _MapState extends State<MapScreen> {
 
-  double zoom = 13;
+  double zoom = 11;
   MapController controller = MapController();
   Location location = new Location();
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
   LocationData _locationData;
   Stream<LocationData> _str;
+  var infoStyle = TextStyle(fontSize: 28);
 
   @override
   void initState() {
@@ -34,8 +35,7 @@ class _MapState extends State<MapScreen> {
   }
 
   void _initLocation() async {
-    Map<String, dynamic> map = {"latitude":0.0, "longitude":0.0};
-    _locationData = LocationData.fromMap(map);
+    _locationData = LocationData.fromMap({"latitude":51.480, "longitude":0.0});
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -76,35 +76,43 @@ class _MapState extends State<MapScreen> {
         ),
         mapController: controller,
         nonRotatedChildren: [
-          Row(children: [
-            ElevatedButton(
-                child: Text(S.of(context).start),
+          Center(child: Icon(Icons.add, size:64)),
+          Column(children: [
+            Row(children: [
+              ElevatedButton(
+                  child: Text(S.of(context).start),
+                  onPressed: () {
+                    debugPrint("Starting to listen for updates");
+                    location.enableBackgroundMode(enable: true);
+                    _str = location.onLocationChanged;
+                    _str.listen((LocationData loc) {
+                      print("Location $loc");
+                      // controller.move(locationDataToLatLng(loc), zoom);
+                      setState(() => _locationData = loc);
+                    },
+                    );}
+              ),
+              ElevatedButton(
+                child: Text(S.of(context).stop),
                 onPressed: () {
-                  debugPrint("Starting to listen for updates");
-                  location.enableBackgroundMode(enable: true);
-                  _str = location.onLocationChanged;
-                  _str.listen((LocationData loc) {
-                    print("Location $loc");
-                    // controller.move(locationDataToLatLng(loc), zoom);
-                    setState(() => _locationData = loc);
-                  },
-                  );}
-            ),
-            ElevatedButton(
-              child: Text(S.of(context).stop),
-              onPressed: () {
-                debugPrint("Stopping...");
-                // _str.close(); // ??
-              },
-            ),
-            Text("Lat"),
-            Text("X.XXXXX"/*lat.toString()*/),
-            Text("Lon"),
-            Text("X.XXXXX"/*lon.toString()*/),
-          ]
-          ),
+                  debugPrint("Stopping...");
+                  // _str.close(); // ??
+                },
+              ),
+            ]),
+            Row(children:[
+              Text(S.of(context).latitude, style: infoStyle),
+              Text(' '),
+              Text("X.XXXXX"/*lat.toString()*/, style: infoStyle),
+            ]),
+            Row(children:[
+              Text(S.of(context).longitude, style: infoStyle),
+              Text(' '),
+              Text("X.XXXXX"/*lon.toString()*/, style: infoStyle),
+            ]),
+          ]),
           AttributionWidget.defaultWidget(
-            source: '© OpenStreetMap contributors',
+            source: 'OpenStreetMap contributors',
             onSourceTapped: () {},
           ),
         ],

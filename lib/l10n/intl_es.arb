@@ -3,5 +3,7 @@
   "jpstrackHomePage": "JPSTrack Home Page",
   "jpstrack": "JPSTrack",
   "start": "Empecer",
-  "stop": "Terminar"
+  "stop": "Terminar",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }

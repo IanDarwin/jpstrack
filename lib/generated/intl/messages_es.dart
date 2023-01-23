@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "jpstrack" : MessageLookupByLibrary.simpleMessage("JPSTrack"),
     "jpstrackHomePage" : MessageLookupByLibrary.simpleMessage("JPSTrack Home Page"),
+    "latitude" : MessageLookupByLibrary.simpleMessage("Latitude"),
+    "longitude" : MessageLookupByLibrary.simpleMessage("Longitude"),
     "start" : MessageLookupByLibrary.simpleMessage("Empecer"),
     "stop" : MessageLookupByLibrary.simpleMessage("Terminar")
   };
