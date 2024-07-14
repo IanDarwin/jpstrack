@@ -34,7 +34,7 @@ android {
 
     defaultConfig {
         applicationId "jpstrack.android.jpstrack"
-        minSdkVersion 20
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
