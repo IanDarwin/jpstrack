@@ -30,11 +30,9 @@ class GPSFileSaver {
     String fileName;
     IOSink out;
 
-    GPSFileSaver(this.startingDir, this.fileName);
+    GPSFileSaver(this.startingDir, this.fileName, this.out);
 
     void startFile() {
-        if(startingDir == null || fileName == null)
-            throw NullThrownError();//"Neither startDir nor fileName may be null");
         File f = File(startingDir + "/" + fileName);
         try {
             out = f.openWrite();

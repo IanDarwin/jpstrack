@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 
 class Point {
 	int time;
@@ -7,10 +7,10 @@ class Point {
 	double altitude;
 
 	Point({
-				@required this.latitude,
-				@required this.longitude,
-				this.altitude,
-				this.time
+				required this.latitude,
+				required this.longitude,
+				this.altitude = 0,
+				this.time = 0
 			});
 
 	@override

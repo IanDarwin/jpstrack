@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:jpstrack/generated/l10n.dart';
 
 ///
 /// The main page of the application. Shows current lat/long, and underneath all,
@@ -11,7 +10,7 @@ import 'package:jpstrack/generated/l10n.dart';
 class MapScreen extends StatefulWidget {
   final String title;
 
-  MapScreen({Key key, this.title}) : super(key: key);
+  MapScreen({required this.title}) : super();
 
   @override
   _MapState createState() => _MapState();
@@ -22,10 +21,10 @@ class _MapState extends State<MapScreen> {
   double zoom = 11;
   MapController controller = MapController();
   Location location = new Location();
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
-  Stream<LocationData> _str;
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  late LocationData _locationData;
+  late Stream<LocationData> _str;
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black45);
   var infoStyle = TextStyle(fontSize: 28);
 
@@ -83,7 +82,7 @@ class _MapState extends State<MapScreen> {
           Column(children: [
             Row(children: [
               ElevatedButton(
-                  child: Text(S.of(context).start),
+                  child: Text("Start"),
                   onPressed: () {
                     debugPrint("Starting to listen for updates");
                     location.enableBackgroundMode(enable: true);
@@ -97,14 +96,14 @@ class _MapState extends State<MapScreen> {
                   }
               ),
               ElevatedButton(
-                child: Text(S.of(context).pause),
+                child: Text("Pause"),
                 onPressed: () {
                   debugPrint("Stopping...");
                   // _str.close(); // ??
                 },
               ),
               ElevatedButton(
-                child: Text(S.of(context).stop),
+                child: Text("Stop"),
                 onPressed: () {
                   debugPrint("Stopping...");
                   // _str.close(); // ??
@@ -112,12 +111,12 @@ class _MapState extends State<MapScreen> {
               )
             ]),
             Row(children:[
-              Text(S.of(context).latitude, style: labelStyle),
+              Text("Latitude", style: labelStyle),
               Text(' '),
               Text("X.XXXXX"/*lat.toString()*/, style: infoStyle),
             ]),
             Row(children:[
-              Text(S.of(context).longitude, style: labelStyle),
+              Text('Longitude', style: labelStyle),
               Text(' '),
               Text("X.XXXXX"/*lon.toString()*/, style: infoStyle),
             ]),
@@ -143,9 +142,6 @@ class _MapState extends State<MapScreen> {
   }
 
   LatLng _locationDataToLatLng(LocationData loc) {
-    if (loc == null) {
-      return LatLng(0.0, 0.0);
-    }
     var lat = loc.latitude??0;
     var lon = loc.longitude??0;
     return LatLng(lat, lon);
