@@ -88,7 +88,11 @@ class _MapState extends State<MapScreen> {
           ),
           Center(child: Icon(Icons.add, size:64)),
           Column(children: [
-            Row(children: [
+
+            // First row of buttons: start,pause/resume, stop recording
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
               ElevatedButton(
                   child: Text("Start"),
                   onPressed: () {
@@ -106,7 +110,7 @@ class _MapState extends State<MapScreen> {
               ElevatedButton(
                 child: Text("Pause"),
                 onPressed: () {
-                  debugPrint("Stopping...");
+                  debugPrint("Pausing...");
                   // _str.close(); // ??
                 },
               ),
@@ -118,7 +122,11 @@ class _MapState extends State<MapScreen> {
                 },
               )
             ]),
-            Row(children:[
+
+            // Second row of buttons: adding notes
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
               ElevatedButton(onPressed: () {
                 debugPrint("Text Note");
                 _createTextNote(context);
