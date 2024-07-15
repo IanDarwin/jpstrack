@@ -1,27 +1,33 @@
 name: jpstrack
 
-description: A GPX-tracking GPS App for creating OpenStreetMap or Google Earth data
+description: GPX-tracking GPS App for creating OpenStreetMap/Google Earth data
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # This is an app, not a library, so don't publish as lib
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=3.2.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  geolocator: ^7.0.1
-  latlong: ^0.6.1
+  audioplayers: ^6.0.0
   cached_network_image: any
-  flutter_map: ^0.12.0
-
-  cupertino_icons: ^1.0.2
+  flutter_map: ^7.0.2
+  geolocator: ^12.0.0
+  image_picker: ^1.1.2
+  latlong2: any
+  location: ^7.0.0
+  path_provider: ^2.0.6
+  sqflite: ^2.0.0+4
+  xml: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
@@ -34,3 +40,5 @@ flutter_icons:
   remove-alpha_ios: true
   image_path: "images/logo.png"
 
+flutter_intl:
+  enabled: true

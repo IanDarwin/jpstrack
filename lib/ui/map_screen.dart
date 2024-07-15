@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:jpstrack/ui/text_note.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
 
 ///
 /// The main page of the application. Shows current lat/long, and underneath all,
@@ -10,7 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class MapScreen extends StatefulWidget {
   final String title;
 
-  MapScreen({Key key, this.title}) : super(key: key);
+  MapScreen({required this.title}) : super();
 
   @override
   _MapState createState() => _MapState();
@@ -18,90 +22,174 @@ class MapScreen extends StatefulWidget {
 
 class _MapState extends State<MapScreen> {
 
-  double lat = 51.48;
-  double lng = 0.0;
-  double zoom = 13;
+  double zoom = 11;
+  MapController controller = MapController();
+  Location location = new Location();
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  late LocationData _locationData;
+  late Stream<LocationData> _str;
+  var labelStyle = TextStyle(fontSize: 28, color: Colors.black45);
+  var infoStyle = TextStyle(fontSize: 28);
+
+  @override
+  void initState() {
+    _initLocation();
+    super.initState();
+  }
+
+  void _initLocation() async {
+    _locationData = LocationData.fromMap({"latitude":51.480, "longitude":0.0});
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    //_locationData = await location.getLocation();
+    location.changeSettings(
+        accuracy: LocationAccuracy.high,
+        interval: 10000,
+        distanceFilter: 5.0);
+    // This doesn't appear to get any data
+    controller.mapEventStream.listen((event) {  debugPrint("Event: $event"); });
+  }
 
   Widget build(BuildContext context) {
-    MapController controller = MapController();
-    controller.mapEventStream.listen((event) {
-      //
-    });
+    debugPrint("In jpsTrack::MapState::build, locale is ${Localizations.localeOf(context)}");
+    controller.mapEventStream.listen((event) { debugPrint(event.toString()); });
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-            actions: <Widget>[
-              new IconButton(icon: const Icon(Icons.menu),
-                  onPressed: () => Scaffold.of(context).openDrawer()),
-            ],
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[
+          new IconButton(icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer()),
+        ],
+      ),
+      body: FlutterMap(
+        options: MapOptions(
+          initialCenter: _locationDataToLatLng(_locationData),
+          initialZoom: zoom,
         ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {  },
-                        child: Text("Start")),
-                    ElevatedButton(onPressed: () {  },
-                        child: Text("Stop")),
-                    Text("Lat"),
-                    Text(lat.toString()),
-                    Text("Lon"),
-                    Text(lng.toString()),
-                  ]
+        mapController: controller,
+        children: [
+          TileLayer(
+            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            userAgentPackageName: 'com.darwinsys.jpstrack.devel',
+          ),
+          Center(child: Icon(Icons.add, size:64)),
+          Column(children: [
+
+            // First row of buttons: start,pause/resume, stop recording
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+              ElevatedButton(
+                  child: Text("Start"),
+                  onPressed: () {
+                    debugPrint("Starting to listen for updates");
+                    location.enableBackgroundMode(enable: true);
+                    _str = location.onLocationChanged;
+                    _str.listen((LocationData loc) {
+                      print("Location $loc");
+                      // controller.move(locationDataToLatLng(loc), zoom);
+                      setState(() => _locationData = loc);
+                    },
+                    );
+                  }
               ),
-              //
-              // The Map!
-              //
-              Expanded(child: FlutterMap(
-                options: MapOptions(
-                  center: LatLng(lat, lng),
-                  zoom: zoom,
-                ),
-                mapController: controller,
-                layers: [
-                  new TileLayerOptions(
-                      urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c'],
-                      tileProvider: const CachedTileProvider(),
-                  ),
-                  new MarkerLayerOptions(
-                    markers: [
-                      new Marker(
-                        width: 60.0,
-                        height: 60.0,
-                        point: new LatLng(lat, lng),
-                        builder: (context) =>
-                        new Container(
-                          child: new FlutterLogo(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              ElevatedButton(
+                child: Text("Pause"),
+                onPressed: () {
+                  debugPrint("Pausing...");
+                  // _str.close(); // ??
+                },
               ),
+              ElevatedButton(
+                child: Text("Stop"),
+                onPressed: () {
+                  debugPrint("Stopping...");
+                  // _str.close(); // ??
+                },
+              )
+            ]),
+
+            // Second row of buttons: adding notes
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
+              ElevatedButton(onPressed: () {
+                debugPrint("Text Note");
+                _createTextNote(context);
+              },
+                  child: const Text("Text Note")
               ),
-            ]
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () { },
-          tooltip: 'Annotate',
-          child: Icon(Icons.add),
-        ),
+              ElevatedButton(onPressed: () {
+                debugPrint("Voice Note");
+              },
+                  child: const Text("Voice Note")
+              ),
+              ElevatedButton(onPressed: () {
+                debugPrint("Take Picture");
+              },
+                  child: const Text("Take Picture")
+              ),
+            ]),
+            Row(children:[
+              Text("Latitude", style: labelStyle),
+              Text(' '),
+              Text("X.XXXXX"/*lat.toString()*/, style: infoStyle),
+            ]),
+            Row(children:[
+              Text('Longitude', style: labelStyle),
+              Text(' '),
+              Text("X.XXXXX"/*lon.toString()*/, style: infoStyle),
+            ]),
+          ]),
+          SimpleAttributionWidget(
+            source: Text('OpenStreetMap contributors'),
+            onTap: () {},
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {debugPrint("Would Re-center map on GPS loc");  },
+        tooltip: 'Annotate',
+        child: Icon(Icons.gps_fixed_sharp),
+      ),
     );
   }
-}
 
-class CachedTileProvider extends TileProvider {
-  const CachedTileProvider();
-  @override
-  ImageProvider getImage(Coords<num> coords, TileLayerOptions options) {
-    return CachedNetworkImageProvider(
-      getTileUrl(coords, options),
-      //Now you can set options that determine how the image gets cached via whichever plugin you use.
+  void _createTextNote(BuildContext context) async {
+    String? textNote = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TextNoteScreen()),
     );
+    if (textNote != null) {
+      // Save textNote to the same location as GPX
+      Directory? directory = await getExternalStorageDirectory();
+      if (directory != null) {
+        File textFile = File('${directory.path}/text_note.txt');
+        await textFile.writeAsString(textNote);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Text note saved to ${textFile.path}')),
+        );
+      }
+    }
+  }
+
+  LatLng _locationDataToLatLng(LocationData loc) {
+    var lat = loc.latitude??0;
+    var lon = loc.longitude??0;
+    return LatLng(lat, lon);
   }
 }

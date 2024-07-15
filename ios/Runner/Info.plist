@@ -12,6 +12,10 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>jpstrack</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To get your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+    <string>To get your location</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
