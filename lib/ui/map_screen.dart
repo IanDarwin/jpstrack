@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:jpstrack/ui/text_note.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
 
 ///
 /// The main page of the application. Shows current lat/long, and underneath all,
@@ -115,6 +119,24 @@ class _MapState extends State<MapScreen> {
               )
             ]),
             Row(children:[
+              ElevatedButton(onPressed: () {
+                debugPrint("Text Note");
+                _createTextNote(context);
+              },
+                  child: const Text("Text Note")
+              ),
+              ElevatedButton(onPressed: () {
+                debugPrint("Voice Note");
+              },
+                  child: const Text("Voice Note")
+              ),
+              ElevatedButton(onPressed: () {
+                debugPrint("Take Picture");
+              },
+                  child: const Text("Take Picture")
+              ),
+            ]),
+            Row(children:[
               Text("Latitude", style: labelStyle),
               Text(' '),
               Text("X.XXXXX"/*lat.toString()*/, style: infoStyle),
@@ -137,6 +159,24 @@ class _MapState extends State<MapScreen> {
         child: Icon(Icons.gps_fixed_sharp),
       ),
     );
+  }
+
+  void _createTextNote(BuildContext context) async {
+    String? textNote = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TextNoteScreen()),
+    );
+    if (textNote != null) {
+      // Save textNote to the same location as GPX
+      Directory? directory = await getExternalStorageDirectory();
+      if (directory != null) {
+        File textFile = File('${directory.path}/text_note.txt');
+        await textFile.writeAsString(textNote);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Text note saved to ${textFile.path}')),
+        );
+      }
+    }
   }
 
   LatLng _locationDataToLatLng(LocationData loc) {
