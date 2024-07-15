@@ -28,7 +28,6 @@ class _MapState extends State<MapScreen> {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   late LocationData _locationData;
-  late Stream<LocationData> _str;
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black45);
   var infoStyle = TextStyle(fontSize: 28);
 
@@ -97,15 +96,8 @@ class _MapState extends State<MapScreen> {
                   child: Text("Start"),
                   onPressed: () {
                     debugPrint("Starting to listen for updates");
-                    location.enableBackgroundMode(enable: true);
-                    _str = location.onLocationChanged;
-                    _str.listen((LocationData loc) {
-                      print("Location $loc");
-                      // controller.move(locationDataToLatLng(loc), zoom);
-                      setState(() => _locationData = loc);
+                    _startTracking();
                     },
-                    );
-                  }
               ),
               ElevatedButton(
                 child: Text("Pause"),
@@ -118,7 +110,7 @@ class _MapState extends State<MapScreen> {
                 child: Text("Stop"),
                 onPressed: () {
                   debugPrint("Stopping...");
-                  // _str.close(); // ??
+                  _stopTracking();
                 },
               )
             ]),
@@ -167,6 +159,32 @@ class _MapState extends State<MapScreen> {
         child: Icon(Icons.gps_fixed_sharp),
       ),
     );
+  }
+
+  void _startTracking() {
+    Stream<LocationData> locationStream = _locationService.getLocationStream();
+    locationStream.listen((LocationData locationData) {
+      _databaseHelper.insertLocation(locationData);
+      setState(() {
+        _locations.add({
+          'latitude': locationData.latitude,
+          'longitude': locationData.longitude,
+          'timestamp': DateTime.now().toString(),
+        });
+      });
+    });
+  }
+
+  void _stopTracking() async {
+    List<Map<String, dynamic>> currentRunLocations = await _databaseHelper.getLocations();
+    if (currentRunLocations.isNotEmpty) {
+      // String gpxString = _buildGPXString(currentRunLocations);
+      // await _saveGPXToFile(gpxString);
+      // await _databaseHelper.deleteLocations();
+    }
+    setState(() {
+      _locations.clear();
+    });
   }
 
   void _createTextNote(BuildContext context) async {
