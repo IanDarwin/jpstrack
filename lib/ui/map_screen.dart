@@ -73,11 +73,15 @@ class _MapState extends State<MapScreen> {
       ),
       body: FlutterMap(
         options: MapOptions(
-          center: _locationDataToLatLng(_locationData),
-          zoom: zoom,
+          initialCenter: _locationDataToLatLng(_locationData),
+          initialZoom: zoom,
         ),
         mapController: controller,
-        nonRotatedChildren: [
+        children: [
+          TileLayer(
+            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            userAgentPackageName: 'com.darwinsys.jpstrack.devel',
+          ),
           Center(child: Icon(Icons.add, size:64)),
           Column(children: [
             Row(children: [
@@ -121,15 +125,9 @@ class _MapState extends State<MapScreen> {
               Text("X.XXXXX"/*lon.toString()*/, style: infoStyle),
             ]),
           ]),
-          AttributionWidget.defaultWidget(
-            source: 'OpenStreetMap contributors',
-            onSourceTapped: () {},
-          ),
-        ],
-        children: [
-          TileLayer(
-            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            userAgentPackageName: 'com.darwinsys.jpstrack.devel',
+          SimpleAttributionWidget(
+            source: Text('OpenStreetMap contributors'),
+            onTap: () {},
           ),
         ],
       ),
