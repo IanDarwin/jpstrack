@@ -102,7 +102,7 @@ class _MapState extends State<MapScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
               ElevatedButton(
-                  child: Text("Start"),
+                  child: Text("New Track"),
                   onPressed: () {
                     debugPrint("Starting to listen for updates");
                     _startTracking();
