@@ -2,13 +2,14 @@
 
 JpsTrack is a Map Maker application,
 a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data
-This program is not a navigation app for getting from point a to point B.
+This program is not a navigation app for getting from point A to point B.
 
 == History
 
 I wrote the first version of jpsTrack in 2007 as a Java SE application.
-A few years after that - starting in 2010 - I wrote an Android user interface in Java.
+A few years after that - starting in 2010 - I wrote an Android user interface,
+also in Java.
 
-This is an all-new implementation in Flutter, so it will be able to run
-on both Android and iOS.
-
+This is an all-new implementation in Flutter, so (when complete) it will run
+on both Android and iOS. Android users will update from the old version
+to this one, once it gets into the play store.

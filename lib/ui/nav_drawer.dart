@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var aboutBoxChildren = [
+      HtmlWidget("""
+<html>
+<h3>About jpsTrack</h3>
+JpsTrack is a Map Maker application,
+a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data
+This program is <em>not</em> a navigation app for getting from point A to point B.
+""")];
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -20,6 +29,15 @@ class NavDrawer extends StatelessWidget {
                     image: AssetImage('images/logo.png'))
             ),
           ),
+          AboutListTile(
+            icon: const Icon(Icons.info),
+            applicationIcon: const FlutterLogo(),
+            applicationName: 'jpsTrack',
+            applicationVersion: 'Flutter Version, July 2024',
+            applicationLegalese:
+              '\u{a9} 2007-2024 Rejminet Group Inc.vi RE',
+            aboutBoxChildren: aboutBoxChildren,
+          ),
           ListTile(
             leading: Icon(Icons.help),
             title: Text('JpsTrack Intro'),
@@ -30,7 +48,6 @@ class NavDrawer extends StatelessWidget {
             title: Text('Settings'),
             onTap: () { },
           ),
-          // XXX More ListTiles here plez
         ],
       ),
     );
