@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:jpstrack/ui/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -7,7 +8,7 @@ class NavDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     var aboutBoxChildren = [
       HtmlWidget("""
-<html>
+<html lang="en">
 <h3>About jpsTrack</h3>
 JpsTrack is a Map Maker application,
 a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data
@@ -52,7 +53,11 @@ This program is <em>not</em> a navigation app for getting from point A to point 
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
-            onTap: () { },
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => (SettingsPage())));
+
+            },
           ),
         ],
       ),
