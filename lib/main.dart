@@ -7,6 +7,8 @@ void main() {
   runApp(MapApp());
 }
 
+// A trivial "main" to scaffold the MapScreen,
+// which is the real main part of the app.
 class MapApp extends StatelessWidget {
 
   @override

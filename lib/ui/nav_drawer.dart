@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -41,7 +42,12 @@ This program is <em>not</em> a navigation app for getting from point A to point 
           ListTile(
             leading: Icon(Icons.help),
             title: Text('JpsTrack Intro'),
-            onTap: () { },
+            onTap: () async {
+              final Uri url = Uri.parse("https://darwinsys.com/jpstrack");
+              if (!await launchUrl(url)) {
+                throw Exception("Failed to launch browser");
+              };
+            },
           ),
           ListTile(
             leading: Icon(Icons.settings),

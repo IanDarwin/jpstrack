@@ -10,6 +10,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'audio_note.dart';
+
 ///
 /// The real "main" page of the application. Shows current lat/long, and underneath all,
 /// a map view showing what's already in OSM, to avoid wasted effort.
@@ -137,6 +139,7 @@ class _MapState extends State<MapScreen> {
                   child: const Text("Text Note")
               ),
               ElevatedButton(onPressed: () {
+                _recordAudioNote();
                 debugPrint("Voice Note");
               },
                   child: const Text("Voice Note")
@@ -221,13 +224,22 @@ class _MapState extends State<MapScreen> {
     }
   }
 
+  void _recordAudioNote() async {
+    String? imagePath = await Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const AudioNoteScreen()),
+    );
+    if (imagePath != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Audio saved to $imagePath')),
+      );
+    }
+  }
+
   void _takePicture() async {
-    String? imagePath = await Navigator.push(
-      context,
+    String? imagePath = await Navigator.push(context,
       MaterialPageRoute(builder: (context) => const TakePictureScreen()),
     );
     if (imagePath != null) {
-      // Save imagePath to the same location as GPX
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Picture saved to $imagePath')),
       );
