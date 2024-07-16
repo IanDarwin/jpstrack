@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/service/location_service.dart';
+import 'package:jpstrack/ui/take_picture.dart';
 import 'package:jpstrack/ui/text_note.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
@@ -137,6 +138,7 @@ class _MapState extends State<MapScreen> {
               ),
               ElevatedButton(onPressed: () {
                 debugPrint("Take Picture");
+                _takePicture();
               },
                   child: const Text("Take Picture")
               ),
@@ -211,6 +213,19 @@ class _MapState extends State<MapScreen> {
           SnackBar(content: Text('Text note saved to ${textFile.path}')),
         );
       }
+    }
+  }
+
+  void _takePicture() async {
+    String? imagePath = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TakePictureScreen()),
+    );
+    if (imagePath != null) {
+      // Save imagePath to the same location as GPX
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Picture saved to $imagePath')),
+      );
     }
   }
 

@@ -11,7 +11,7 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class _TakePictureScreenState extends State<TakePictureScreen> {
-  late File _imageFile;
+  File? _imageFile;
 
   Future<void> _takePicture() async {
     final picker = ImagePicker();
@@ -28,7 +28,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
     if (directory != null) {
       String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
       String imagePath = '${directory.path}/image_$timestamp.jpg';
-      await _imageFile.copy(imagePath);
+      await _imageFile!.copy(imagePath);
       Navigator.pop(context, imagePath);
     }
   }
@@ -43,7 +43,8 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.file(_imageFile),
+            _imageFile  == null ? const Text("No image") :
+              Image.file(_imageFile!, width:200),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _takePicture,
