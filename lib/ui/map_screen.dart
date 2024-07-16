@@ -118,7 +118,12 @@ class _MapState extends State<MapScreen> {
                   debugPrint("Stopping...");
                   _stopTracking();
                 },
-              )
+              ),
+                  ElevatedButton(onPressed: () {
+                    debugPrint("Export requested");
+                  },
+                      child: const Text("Export"),
+                  )
             ]),
 
             // Second row of buttons: adding notes
