@@ -30,6 +30,7 @@ class DatabaseHelper {
         trackset_id INTEGER,
         latitude REAL,
         longitude REAL,
+        altitude REAL,
         timestamp TEXT
       )
     ''');
@@ -40,6 +41,7 @@ class DatabaseHelper {
     return await dbClient.insert('locations', {
       'latitude': location.latitude,
       'longitude': location.longitude,
+      'altitude' : location.altitude,
       'timestamp': DateTime.now().toString()
     });
   }

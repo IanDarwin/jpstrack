@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:jpstrack/db/database_helper.dart';
+import 'package:jpstrack/service/location_service.dart';
 import 'package:jpstrack/ui/text_note.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
 ///
-/// The main page of the application. Shows current lat/long, and underneath all,
+/// The real "main" page of the application. Shows current lat/long, and underneath all,
 /// a map view showing what's already in OSM, to avoid wasted effort.
 ///
 class MapScreen extends StatefulWidget {
@@ -21,8 +23,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapState extends State<MapScreen> {
-
-  double zoom = 11;
+  final LocationService _locationService = LocationService();
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
+  double zoom = 20;
   MapController controller = MapController();
   Location location = new Location();
   late bool _serviceEnabled;
@@ -30,6 +33,9 @@ class _MapState extends State<MapScreen> {
   late LocationData _locationData;
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black45);
   var infoStyle = TextStyle(fontSize: 28);
+  double _lat = 0;
+  double _lon = 0;
+  double _alt = 0;
 
   @override
   void initState() {
@@ -64,7 +70,7 @@ class _MapState extends State<MapScreen> {
   }
 
   Widget build(BuildContext context) {
-    debugPrint("In jpsTrack::MapState::build, locale is ${Localizations.localeOf(context)}");
+    debugPrint("In jpsTrack::MapState::build");
     controller.mapEventStream.listen((event) { debugPrint(event.toString()); });
     return Scaffold(
       appBar: AppBar(
@@ -81,11 +87,13 @@ class _MapState extends State<MapScreen> {
         ),
         mapController: controller,
         children: [
+
           TileLayer(
             urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             userAgentPackageName: 'com.darwinsys.jpstrack.devel',
           ),
           Center(child: Icon(Icons.add, size:64)),
+
           Column(children: [
 
             // First row of buttons: start,pause/resume, stop recording
@@ -136,17 +144,24 @@ class _MapState extends State<MapScreen> {
                   child: const Text("Take Picture")
               ),
             ]),
+
             Row(children:[
               Text("Latitude", style: labelStyle),
               Text(' '),
-              Text("X.XXXXX"/*lat.toString()*/, style: infoStyle),
+              Text(_lat.toString(), style: infoStyle),
             ]),
             Row(children:[
               Text('Longitude', style: labelStyle),
               Text(' '),
-              Text("X.XXXXX"/*lon.toString()*/, style: infoStyle),
+              Text(_lon.toString(), style: infoStyle),
+            ]),
+            Row(children:[
+              Text('Altitude', style: labelStyle),
+              Text(' '),
+              Text(_alt.toString(), style: infoStyle),
             ]),
           ]),
+
           SimpleAttributionWidget(
             source: Text('OpenStreetMap contributors'),
             onTap: () {},
@@ -164,13 +179,12 @@ class _MapState extends State<MapScreen> {
   void _startTracking() {
     Stream<LocationData> locationStream = _locationService.getLocationStream();
     locationStream.listen((LocationData locationData) {
+      _locationData = locationData;
       _databaseHelper.insertLocation(locationData);
       setState(() {
-        _locations.add({
-          'latitude': locationData.latitude,
-          'longitude': locationData.longitude,
-          'timestamp': DateTime.now().toString(),
-        });
+        _lat = locationData.latitude!;
+        _lon = locationData.longitude!;
+        _alt = locationData.altitude!;
       });
     });
   }
@@ -183,7 +197,7 @@ class _MapState extends State<MapScreen> {
       // await _databaseHelper.deleteLocations();
     }
     setState(() {
-      _locations.clear();
+      // empty
     });
   }
 
