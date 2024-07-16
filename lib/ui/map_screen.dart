@@ -31,11 +31,8 @@ class _MapState extends State<MapScreen> {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   late LocationData _locationData;
-  var labelStyle = TextStyle(fontSize: 28, color: Colors.black45);
+  var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
   var infoStyle = TextStyle(fontSize: 28);
-  double _lat = 0;
-  double _lon = 0;
-  double _alt = 0;
 
   @override
   void initState() {
@@ -44,7 +41,7 @@ class _MapState extends State<MapScreen> {
   }
 
   void _initLocation() async {
-    _locationData = LocationData.fromMap({"latitude":51.480, "longitude":0.0});
+    _locationData = LocationData.fromMap({"latitude":51.6, "longitude":0.0});
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -148,17 +145,17 @@ class _MapState extends State<MapScreen> {
             Row(children:[
               Text("Latitude", style: labelStyle),
               Text(' '),
-              Text(_lat.toString(), style: infoStyle),
+              Text(_locationData.latitude.toString(), style: infoStyle),
             ]),
             Row(children:[
               Text('Longitude', style: labelStyle),
               Text(' '),
-              Text(_lon.toString(), style: infoStyle),
+              Text(_locationData.longitude.toString(), style: infoStyle),
             ]),
             Row(children:[
               Text('Altitude', style: labelStyle),
               Text(' '),
-              Text(_alt.toString(), style: infoStyle),
+              Text(_locationData.altitude.toString(), style: infoStyle),
             ]),
           ]),
 
@@ -179,12 +176,10 @@ class _MapState extends State<MapScreen> {
   void _startTracking() {
     Stream<LocationData> locationStream = _locationService.getLocationStream();
     locationStream.listen((LocationData locationData) {
-      _locationData = locationData;
       _databaseHelper.insertLocation(locationData);
       setState(() {
-        _lat = locationData.latitude!;
-        _lon = locationData.longitude!;
-        _alt = locationData.altitude!;
+        _locationData = locationData;
+        controller.move(_locationDataToLatLng(_locationData), 20);
       });
     });
   }
