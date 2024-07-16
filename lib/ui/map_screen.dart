@@ -11,6 +11,7 @@ import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'audio_note.dart';
+import 'export_track.dart';
 
 ///
 /// The real "main" page of the application. Shows current lat/long, and underneath all,
@@ -123,6 +124,8 @@ class _MapState extends State<MapScreen> {
               ),
                   ElevatedButton(onPressed: () {
                     debugPrint("Export requested");
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => ExportPage()));
                   },
                       child: const Text("Export"),
                   )
