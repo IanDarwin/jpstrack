@@ -11,7 +11,7 @@ final header =
       <metadata>
 	<name>jpstrack GPS track log</name>
 	<time>${DateTime.now()}</time>
-	<url>httpd://darwinsys.com/jpstrack
+	<url>https://darwinsys.com/jpstrack
       </metadata>
 
     <!-- track start -->
@@ -46,9 +46,9 @@ class GPSFileSaver {
         addPointData(r.time, r.latitude, r.longitude, r.altitude);
     }
 
-    addPointData(int time, double latitude, double longitude, double elven) {
+    addPointData(int time, double latitude, double longitude, double altitude) {
         out.writeln("<trkpt lat='$latitude' lon='$longitude'>");
-        out.writeln("    <ele>$elven</ele>");
+        out.writeln("    <ele>$altitude</ele>");
         out.writeln("    <time>${DateTime(time)}</time>"); //df.format(date));
         out.writeln("    <fix>3d</fix>");
         out.writeln("</trkpt>");

@@ -3,6 +3,8 @@ import 'package:location/location.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import '../model/track.dart';
+
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
@@ -24,25 +26,55 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int version) async {
+    print("Creating tracks table");
     await db.execute('''
+      -- Table for track set
+      CREATE TABLE tracks(
+        id INTEGER PRIMARY KEY,
+        start TEXT
+      );
+     ''');
+    print("Creating locations table");
+    await db.execute('''
+      --- Table for data points
       CREATE TABLE locations(
         id INTEGER PRIMARY KEY,
-        trackset_id INTEGER,
+        trackset_id INTEGER REFERENCES tracks(id),
         latitude REAL,
         longitude REAL,
         altitude REAL,
         timestamp TEXT
-      )
+      );
     ''');
   }
 
-  Future<int> insertLocation(LocationData location) async {
+  Future<int> insertTrack(Track track) async {
+    Database dbClient = await db;
+    return await dbClient.insert('tracks', {
+      'start': DateTime.now().toString()
+    });
+  }
+
+  Future<List<Track>> getTracks() async {
+    Database dbClient = await db;
+    List<Map<String, dynamic>> raw = await dbClient.query('tracks');
+    List<Track> ret = [];
+    for (var x in raw) {
+      Track t = Track(x['id'], DateTime.parse(x['start']));
+      // XXX Get the readings!!!
+      ret.add(t);
+    }
+    return ret;
+  }
+
+  Future<int> insertLocation(LocationData location, int tracksetId) async {
     Database dbClient = await db;
     return await dbClient.insert('locations', {
       'latitude': location.latitude,
       'longitude': location.longitude,
       'altitude' : location.altitude,
-      'timestamp': DateTime.now().toString()
+      'timestamp': location.time.toString(),
+      'trackset_id': tracksetId,
     });
   }
 

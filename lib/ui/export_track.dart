@@ -1,32 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:jpstrack/db/database_helper.dart';
+
+import '../model/track.dart';
+import 'nav_drawer.dart';
 
 /// Activity for Export
 ///
 class ExportPage extends StatefulWidget {
 
   @override
-  ExportState createState() => ExportState();
+  ExportListState createState() => ExportListState();
 
 }
 
-class ExportState extends State<ExportPage> {
+class ExportListState extends State<ExportPage> {
+  late Future<List<Track>> tracks;
+
+  getTracks() async {
+    tracks = DatabaseHelper().getTracks();
+  }
 
   @override
-  Widget build(var context) {
+  Widget build(BuildContext context) {
+    debugPrint("In ExportListState::build");
     return Scaffold(
-        body:Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                const Text('Export not written yet'),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                )
-              ]
-            )
-        )
+        appBar: AppBar(
+        title: Center(child: Text("Export Tracks"))
+        ),
+      drawer: NavDrawer(),
+      body: FutureBuilder(
+        future: DatabaseHelper().getTracks(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(
+                child: Text(
+                    "Data error: ${snapshot.error}!")
+            );
+          }
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.data!.length == 0) {
+            return Center(
+              child: Text("No tracks yet; add one using 'Track'"),
+            );
+          };
+          print("ListPage: n=${snapshot.data!.length}");
+          debugPrint("In export builder with ${snapshot.data!.length}");
+          return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                debugPrint("In ItemBuilder for $index");
+                var track = snapshot.data![index];
+                return ListTile(
+                  title: Text("Track ${track.start.toIso8601String()}"),
+                  subtitle: Text("Track with ${track.steps.length} items"),
+                  // trailing: Row(children: [
+                  //   Icon(Icons.save),
+                  //   Icon(Icons.upload),
+                  //   Icon(Icons.delete_forever),
+                  // ]),
+                );
+              }
+          );
+        }
+    )
     );
   }
 }
-

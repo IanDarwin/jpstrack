@@ -10,6 +10,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../model/track.dart';
 import 'audio_note.dart';
 import 'export_track.dart';
 
@@ -102,7 +103,7 @@ class _MapState extends State<MapScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
               ElevatedButton(
-                  child: Text("New Track"),
+                  child: Text("Track"),
                   onPressed: () {
                     debugPrint("Starting to listen for updates");
                     _startTracking();
@@ -186,10 +187,13 @@ class _MapState extends State<MapScreen> {
     );
   }
 
-  void _startTracking() {
+  void _startTracking() async {
+    Track t = Track(0, DateTime.now());
+    final int id = await DatabaseHelper().insertTrack(t);
+    t.id = id;
     Stream<LocationData> locationStream = _locationService.getLocationStream();
     locationStream.listen((LocationData locationData) {
-      _databaseHelper.insertLocation(locationData);
+      _databaseHelper.insertLocation(locationData, id);
       setState(() {
         _locationData = locationData;
         controller.move(_locationDataToLatLng(_locationData), 20);
