@@ -56,11 +56,26 @@ class ExportListState extends State<ExportPage> {
                 return ListTile(
                   title: Text("Track ${track.start.toIso8601String()}"),
                   subtitle: Text("Track with ${track.steps.length} items"),
-                  // trailing: Row(children: [
-                  //   Icon(Icons.save),
-                  //   Icon(Icons.upload),
-                  //   Icon(Icons.delete_forever),
-                  // ]),
+					trailing: Wrap(children: [
+                        IconButton(
+                            constraints: BoxConstraints(maxWidth: 40),
+                            icon: Icon(Icons.save),
+                            onPressed: () {
+                              print("Save");
+                            }),
+                        IconButton(
+                            constraints: BoxConstraints(maxWidth: 40),
+                            icon: Icon(Icons.upload),
+                            onPressed: () {
+                              print("Upload");
+                            }),
+                        IconButton(
+                            constraints: BoxConstraints(maxWidth: 40),
+                            icon: Icon(Icons.delete_forever),
+                            onPressed: () {
+                              print("Delete");
+                            }),
+                  ]),
                 );
               }
           );
