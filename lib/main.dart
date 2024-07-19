@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:intl/intl.dart';
 import 'package:jpstrack/ui/nav_drawer.dart';
 
 import 'db/database_helper.dart';
@@ -10,6 +11,8 @@ void main() async {
   await DatabaseHelper();
   runApp(MapApp());
 }
+
+DateFormat dateFormat = DateFormat('yyyy-MM-dd hh:mm');
 
 // A trivial "main" to scaffold the MapScreen,
 // which is the real main part of the app.
