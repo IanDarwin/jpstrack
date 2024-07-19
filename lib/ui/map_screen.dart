@@ -32,7 +32,7 @@ class _MapState extends State<MapScreen> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   double zoom = 20;
   MapController controller = MapController();
-  Location location = new Location();
+  Location location = Location();
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   late LocationData _locationData;
@@ -78,7 +78,7 @@ class _MapState extends State<MapScreen> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
-          new IconButton(icon: const Icon(Icons.menu),
+          IconButton(icon: const Icon(Icons.menu),
               onPressed: () => Scaffold.of(context).openDrawer()),
         ],
       ),

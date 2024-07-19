@@ -7,7 +7,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 class SettingsPage extends StatefulWidget {
 
   @override
-  SettingsState createState() => new SettingsState();
+  SettingsState createState() => SettingsState();
 
 }
 
