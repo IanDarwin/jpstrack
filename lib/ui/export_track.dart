@@ -58,16 +58,22 @@ class ExportListState extends State<ExportPage> {
                       subtitle: Text("Track with ${track.steps.length} items"),
                       trailing: Wrap(children: [
                         IconButton(
+                          disabledColor: Colors.grey,
                             constraints: BoxConstraints(maxWidth: 40),
-                            icon: Icon(Icons.save),
-                            onPressed: () {
-                              print("Save");
-                            }),
+                            icon: Icon(Icons.map),
+                            onPressed: null
+                        ),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.upload),
                             onPressed: () {
                               print("Upload");
+                            }),
+                        IconButton(
+                            constraints: BoxConstraints(maxWidth: 40),
+                            icon: Icon(Icons.save),
+                            onPressed: () {
+                              print("Save");
                             }),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),

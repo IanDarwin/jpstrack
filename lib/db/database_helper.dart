@@ -58,13 +58,18 @@ class DatabaseHelper {
   Future<List<Track>> getTracks() async {
     Database dbClient = await db;
     List<Map<String, dynamic>> raw = await dbClient.query('tracks');
-    List<Track> ret = [];
+    List<Track> retval = [];
     for (var x in raw) {
       Track t = Track(x['id'], DateTime.parse(x['start']));
-      // XXX Get the readings!!!
-      ret.add(t);
+      retval.add(t);
+      List<Map<String, dynamic>> ret = await dbClient.rawQuery("select * from locations l where l.trackset_id = " + t.id.toString());
+      for (Map<String,dynamic> map in ret) {
+        LocationData loc = LocationData.fromMap(map);
+        t.add(loc);
+      }
     }
-    return ret;
+
+    return retval;
   }
 
   Future<int> insertLocation(LocationData location, int tracksetId) async {
