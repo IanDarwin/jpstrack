@@ -202,12 +202,11 @@ class _MapState extends State<MapScreen> {
   }
 
   void _stopTracking() async {
-    List<Map<String, dynamic>> currentRunLocations = await _databaseHelper.getLocations();
-    if (currentRunLocations.isNotEmpty) {
+    //if (currentRunLocations.isNotEmpty) {
       // String gpxString = _buildGPXString(currentRunLocations);
       // await _saveGPXToFile(gpxString);
       // await _databaseHelper.deleteLocations();
-    }
+   // }
     setState(() {
       // empty
     });

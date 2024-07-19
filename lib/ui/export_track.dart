@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/model/track.dart';
 import 'package:jpstrack/main.dart' show dateFormat;
+import '../io/gpx.dart';
 import 'nav_drawer.dart';
 
 /// Activity for Export
@@ -54,7 +55,7 @@ class ExportListState extends State<ExportPage> {
                     debugPrint("In ItemBuilder for $index");
                     var track = snapshot.data![index];
                     return ListTile(
-                      title: Text("${dateFormat.format(track.start)}"),
+                      title: Text("${dateFormat.format(track.time)}"),
                       subtitle: Text("Track with ${track.steps.length} items"),
                       trailing: Wrap(children: [
                         IconButton(
@@ -68,6 +69,9 @@ class ExportListState extends State<ExportPage> {
                             icon: Icon(Icons.upload),
                             onPressed: () {
                               print("Upload");
+                              String payload = Gpx.buildGPXString(track);
+                              print(payload);
+                              // XXX upload it
                             }),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
@@ -78,8 +82,12 @@ class ExportListState extends State<ExportPage> {
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.delete_forever),
-                            onPressed: () {
+                            onPressed: () async {
                               print("Delete");
+                              await DatabaseHelper().deleteTrack(track);
+                              setState(() {
+                                // empty
+                              });
                             }),
                       ]),
                     );

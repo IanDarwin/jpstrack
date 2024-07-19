@@ -26,71 +26,68 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int version) async {
-    print("Creating tracks table");
+    print("Creating track table");
     await db.execute('''
       -- Table for track set
-      CREATE TABLE tracks(
+      CREATE TABLE track (
         id INTEGER PRIMARY KEY,
-        start TEXT
+        time TEXT
       );
      ''');
-    print("Creating locations table");
+    print("Creating locationdata table");
     await db.execute('''
       --- Table for data points
-      CREATE TABLE locations(
+      CREATE TABLE locationdata(
         id INTEGER PRIMARY KEY,
         trackset_id INTEGER REFERENCES tracks(id),
         latitude REAL,
         longitude REAL,
         altitude REAL,
-        timestamp TEXT
+        time REAL
       );
     ''');
   }
 
   Future<int> insertTrack(Track track) async {
     Database dbClient = await db;
-    return await dbClient.insert('tracks', {
-      'start': DateTime.now().toString()
+    return await dbClient.insert('track', {
+      'time': DateTime.now().millisecondsSinceEpoch.toInt(),
     });
   }
 
   Future<List<Track>> getTracks() async {
     Database dbClient = await db;
-    List<Map<String, dynamic>> raw = await dbClient.query('tracks');
-    List<Track> retval = [];
+    List<Map<String, dynamic>> raw = await dbClient.query('track');
+    List<Track> retVal = [];
     for (var x in raw) {
-      Track t = Track(x['id'], DateTime.parse(x['start']));
-      retval.add(t);
-      List<Map<String, dynamic>> ret = await dbClient.rawQuery("select * from locations l where l.trackset_id = " + t.id.toString());
+      Track track = Track(x['id'], DateTime.fromMillisecondsSinceEpoch(int.parse(x['time'])));
+      retVal.add(track);
+      List<Map<String, dynamic>> ret = await dbClient.rawQuery("SELECT * FROM locationdata l WHERE l.trackset_id = ${track.id}");
       for (Map<String,dynamic> map in ret) {
         LocationData loc = LocationData.fromMap(map);
-        t.add(loc);
+        track.add(loc);
       }
+      print("Reassembled track: $track");
     }
+    return retVal;
+  }
 
-    return retval;
+  Future<bool> deleteTrack(Track track) async {
+    var dbClient = await db;
+    await dbClient.delete("locationdata", where: "trackset_id = ?", whereArgs: [track.id]);
+    int updateCount = await dbClient.delete("track", where: "id = ?", whereArgs: [track.id]);
+    return updateCount == 1;
   }
 
   Future<int> insertLocation(LocationData location, int tracksetId) async {
     Database dbClient = await db;
-    return await dbClient.insert('locations', {
+    return await dbClient.insert('locationdata', {
       'latitude': location.latitude,
       'longitude': location.longitude,
       'altitude' : location.altitude,
-      'timestamp': location.time.toString(),
+      'time': location.time.toString(),
       'trackset_id': tracksetId,
     });
-  }
-
-  Future<List<Map<String, dynamic>>> getLocations() async {
-    Database dbClient = await db;
-    return await dbClient.query('locations');
-  }
-
-  Future<void> deleteLocations() async {
-    Database dbClient = await db;
-    await dbClient.delete('locations');
   }
 }
 
