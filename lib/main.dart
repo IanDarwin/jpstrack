@@ -12,7 +12,7 @@ void main() async {
   runApp(MapApp());
 }
 
-DateFormat dateFormat = DateFormat('yyyy-MM-dd hh:mm');
+DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
 // A trivial "main" to scaffold the MapScreen,
 // which is the real main part of the app.
