@@ -3,6 +3,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:jpstrack/ui/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../constants.dart';
+
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,14 +39,14 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             applicationName: 'jpsTrack',
             applicationVersion: 'Flutter Version, July 2024',
             applicationLegalese:
-              '\u{a9} 2007-2024 Rejminet Group Inc.vi RE',
+              '\u{a9} 2007-2024 Rejminet Group Inc.',
             aboutBoxChildren: aboutBoxChildren,
           ),
           ListTile(
             leading: Icon(Icons.help),
             title: Text('JpsTrack Intro'),
             onTap: () async {
-              final Uri url = Uri.parse("https://darwinsys.com/jpstrack");
+              final Uri url = Uri.parse(Constants.URL_ABOUT);
               if (!await launchUrl(url)) {
                 throw Exception("Failed to launch browser");
               };
@@ -56,7 +58,16 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => (SettingsPage())));
-
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Privacy Policy'),
+            onTap: () async {
+              final Uri url = Uri.parse("https://darwinsys.com/jpstrack/privacy.html");
+              if (!await launchUrl(url)) {
+                throw Exception("Failed to launch browser");
+              }
             },
           ),
         ],
