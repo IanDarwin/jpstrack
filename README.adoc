@@ -10,8 +10,8 @@ I wrote the first version of jpsTrack in 2007 as a Java SE application.
 A few years after that - starting in 2010 - I wrote an Android user interface,
 also in Java.
 
-This is an all-new implementation in Flutter, so (when complete) it will run
-on both Android and iOS. Android users will be updatee automatically from the old version
+This is an all-new implementation in Flutter, to run on both Android and iOS.
+Android users will be updated automatically from the old version
 to this one, once it gets into the play store.
 
 The minimum version of Android is now API 23 (Android 6).
