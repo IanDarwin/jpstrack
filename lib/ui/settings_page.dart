@@ -23,6 +23,7 @@ class SettingsState extends State<SettingsPage> {
     return prefs.getBool(Constants.KEY_AUTO_UPLOAD)??true;
   }
 
+  @override
   Widget build(var context) {
     return SettingsScreen(title: "jpsTrack Settings",
       children: <Widget>[

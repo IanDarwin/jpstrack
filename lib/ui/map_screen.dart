@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/service/location_service.dart';
 import 'package:jpstrack/ui/take_picture.dart';
@@ -30,6 +31,7 @@ class MapScreen extends StatefulWidget {
 class _MapState extends State<MapScreen> {
   final LocationService _locationService = LocationService();
   final DatabaseHelper _databaseHelper = DatabaseHelper();
+  final altitudeFormat = NumberFormat("#####.0#", "en_US");
   double zoom = 20;
   MapController controller = MapController();
   Location location = Location();
@@ -169,7 +171,7 @@ class _MapState extends State<MapScreen> {
             Row(children:[
               Text('Altitude', style: labelStyle),
               Text(' '),
-              Text(_locationData.altitude.toString(), style: infoStyle),
+              Text(altitudeFormat.format(_locationData.altitude), style: infoStyle),
             ]),
           ]),
 

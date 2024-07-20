@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/model/track.dart';
 import 'package:jpstrack/main.dart' show dateFormat;
-import '../io/gpx.dart';
-import 'nav_drawer.dart';
+import 'package:jpstrack/io/gpx.dart';
+import 'package:jpstrack/ui/nav_drawer.dart';
+import 'package:jpstrack/ui/settings_page.dart';
+
+import '../constants.dart';
 
 /// Activity for Export
 ///
@@ -67,11 +73,9 @@ class ExportListState extends State<ExportPage> {
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.upload),
-                            onPressed: () {
+                            onPressed: () async {
                               print("Upload");
-                              String payload = Gpx.buildGPXString(track);
-                              print(payload);
-                              // XXX upload it
+                              uploadToOSM(track);
                             }),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
@@ -96,5 +100,31 @@ class ExportListState extends State<ExportPage> {
             }
         )
     );
+  }
+
+  Future<void> uploadToOSM(Track track) async {
+    try {
+      var url = Uri.parse(Constants.URL_UPLOAD);
+      String trackAsGpx = Gpx.buildGPXString(track);
+      String username = SettingsState.getLoginName();
+      String passwd = 'abc.123';
+      Map<String,String> headerMap = {
+        "Authorization":"Basic ${base64.encode(utf8.encode('$username:$passwd'''))}"
+      };
+      var response = await http.post(url,
+          body: trackAsGpx,
+          headers: headerMap);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      // Check the response status
+      if (response.statusCode == 200) {
+        print('Uploaded successfully');
+      } else {
+        print('Upload failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading data: $e');
+    }
   }
 }
