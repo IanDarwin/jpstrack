@@ -108,8 +108,11 @@ class ExportListState extends State<ExportPage> {
       String trackAsGpx = Gpx.buildGPXString(track);
       String username = SettingsState.getLoginName();
       String passwd = 'abc.123';
+      String oauthToken = "fiddlesticks"; // XXX
       Map<String,String> headerMap = {
-        "Authorization":"Basic ${base64.encode(utf8.encode('$username:$passwd'''))}"
+        "Authorization": "Bearer $oauthToken",
+		"Content-Type": "application/gpx+xml",
+		"User-Agent": "JPSTrack https://darwinsys.com/jpstrack",
       };
       var response = await http.post(url,
           body: trackAsGpx,
