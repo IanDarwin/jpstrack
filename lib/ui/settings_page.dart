@@ -16,11 +16,11 @@ class SettingsPage extends StatefulWidget {
 class SettingsState extends State<SettingsPage> {
 
   static String getLoginName() {
-	return prefs.getBool(Constants.KEY_LOGIN_NAME);
+	  return prefs.getString(Constants.KEY_LOGIN_NAME)??"Name Here Please";
   }
 
-  static boolean isAutoUpload() {
-    return prefs.getBool(Constants.KEY_AUTO_UPLOAD, true);
+  static bool isAutoUpload() {
+    return prefs.getBool(Constants.KEY_AUTO_UPLOAD)??true;
   }
 
   Widget build(var context) {

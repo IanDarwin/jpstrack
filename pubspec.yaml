@@ -26,6 +26,7 @@ dependencies:
   path: any
   path_provider: ^2.0.6
   record: ^5.1.2
+  shared_preferences: any
   sqflite: ^2.0.0+4
   url_launcher: ^6.3.0
   xml: any
