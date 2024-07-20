@@ -6,13 +6,17 @@ import 'package:jpstrack/ui/nav_drawer.dart';
 import 'db/database_helper.dart';
 import 'ui/map_screen.dart';
 
+late SharedPreferences prefs;
+
+DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
   await Settings.init();
   await DatabaseHelper();
   runApp(MapApp());
 }
-
-DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
 // A trivial "main" to scaffold the MapScreen,
 // which is the real main part of the app.
