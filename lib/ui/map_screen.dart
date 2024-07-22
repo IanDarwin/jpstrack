@@ -32,10 +32,11 @@ class _MapState extends State<MapScreen> {
   final LocationService _locationService = LocationService();
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   final altitudeFormat = NumberFormat("#####.0#", "en_US");
-  double zoom = 20;
   MapController controller = MapController();
+  Track? currentTrack = null;
   Location location = Location();
   late bool _serviceEnabled;
+  double zoom = 20;
   late PermissionStatus _permissionGranted;
   late LocationData _locationData;
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
@@ -125,20 +126,20 @@ class _MapState extends State<MapScreen> {
                   _stopTracking();
                 },
               ),
-                  ElevatedButton(onPressed: () {
-                    debugPrint("Export requested");
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ExportPage()));
-                  },
-                      child: const Text("Export"),
-                  )
+			  ElevatedButton(onPressed: () {
+				debugPrint("Export requested");
+				Navigator.push(context, MaterialPageRoute(
+					builder: (context) => ExportPage()));
+			  },
+				  child: const Text("Export"),
+			  )
             ]),
 
             // Second row of buttons: adding notes
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
-              ElevatedButton(onPressed: () {
+              ElevatedButton(onPressed: currentTrack? == null ? null :  () {
                 debugPrint("Text Note");
                 _createTextNote(context);
               },
@@ -190,9 +191,9 @@ class _MapState extends State<MapScreen> {
   }
 
   void _startTracking() async {
-    Track t = Track(0, DateTime.now());
-    final int id = await DatabaseHelper().insertTrack(t);
-    t.id = id;
+    currentTrack = Track(0, DateTime.now());
+    final int id = await DatabaseHelper().insertTrack(currentTrack!);
+    currentTrack!.id = id;
     Stream<LocationData> locationStream = _locationService.getLocationStream();
     locationStream.listen((LocationData locationData) {
       _databaseHelper.insertLocation(locationData, id);
@@ -204,6 +205,7 @@ class _MapState extends State<MapScreen> {
   }
 
   void _stopTracking() async {
+    currentTrack = null;
     //if (currentRunLocations.isNotEmpty) {
       // String gpxString = _buildGPXString(currentRunLocations);
       // await _saveGPXToFile(gpxString);
