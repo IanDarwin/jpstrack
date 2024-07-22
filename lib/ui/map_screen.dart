@@ -38,7 +38,14 @@ class _MapState extends State<MapScreen> {
   late bool _serviceEnabled;
   double zoom = 20;
   late PermissionStatus _permissionGranted;
-  late LocationData _locationData;
+  LocationData _locationData = LocationData.fromMap(
+      {
+        "latitude":51.6,
+        "longitude":0.0,
+        'altitude': 0.0,
+        "time": 0.0
+      }
+  );
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
   var infoStyle = TextStyle(fontSize: 28);
 
@@ -49,7 +56,6 @@ class _MapState extends State<MapScreen> {
   }
 
   void _initLocation() async {
-    _locationData = LocationData.fromMap({"latitude":51.6, "longitude":0.0});
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -139,19 +145,19 @@ class _MapState extends State<MapScreen> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
-              ElevatedButton(onPressed: currentTrack? == null ? null :  () {
+              ElevatedButton(onPressed: currentTrack == null ? null :  () {
                 debugPrint("Text Note");
                 _createTextNote(context);
               },
                   child: const Text("Text Note")
               ),
-              ElevatedButton(onPressed: () {
+              ElevatedButton(onPressed: currentTrack == null ? null :  () {
                 _recordAudioNote();
                 debugPrint("Voice Note");
               },
                   child: const Text("Voice Note")
               ),
-              ElevatedButton(onPressed: () {
+              ElevatedButton(onPressed: currentTrack == null ? null :  () {
                 debugPrint("Take Picture");
                 _takePicture();
               },
