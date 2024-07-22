@@ -5,12 +5,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/intl.dart';
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/service/location_service.dart';
+import 'package:jpstrack/ui/settings_page.dart';
 import 'package:jpstrack/ui/take_picture.dart';
 import 'package:jpstrack/ui/text_note.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../io/gpx.dart';
 import '../model/track.dart';
 import 'audio_note.dart';
 import 'export_track.dart';
@@ -38,7 +40,14 @@ class _MapState extends State<MapScreen> {
   late bool _serviceEnabled;
   double zoom = 20;
   late PermissionStatus _permissionGranted;
-  late LocationData _locationData;
+  LocationData _locationData = LocationData.fromMap(
+      {
+        "latitude":51.6,
+        "longitude":0.0,
+        'altitude': 0.0,
+        "time": 0.0
+      }
+  );
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
   var infoStyle = TextStyle(fontSize: 28);
 
@@ -49,7 +58,6 @@ class _MapState extends State<MapScreen> {
   }
 
   void _initLocation() async {
-    _locationData = LocationData.fromMap({"latitude":51.6, "longitude":0.0});
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -65,12 +73,13 @@ class _MapState extends State<MapScreen> {
         return;
       }
     }
+    // Yes, please keep mapping in background.
+    location.enableBackgroundMode(enable: true);
     //_locationData = await location.getLocation();
     location.changeSettings(
         accuracy: LocationAccuracy.high,
         interval: 10000,
         distanceFilter: 5.0);
-    // This doesn't appear to get any data
     controller.mapEventStream.listen((event) {  debugPrint("Event: $event"); });
   }
 
@@ -107,7 +116,7 @@ class _MapState extends State<MapScreen> {
                 children: [
               ElevatedButton(
                   child: Text("Track"),
-                  onPressed: () {
+                  onPressed: currentTrack != null ? null :  () {
                     debugPrint("Starting to listen for updates");
                     _startTracking();
                     },
@@ -121,7 +130,7 @@ class _MapState extends State<MapScreen> {
               ),
               ElevatedButton(
                 child: Text("Stop"),
-                onPressed: () {
+                onPressed: currentTrack == null ? null :  () {
                   debugPrint("Stopping...");
                   _stopTracking();
                 },
@@ -139,19 +148,19 @@ class _MapState extends State<MapScreen> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
-              ElevatedButton(onPressed: currentTrack? == null ? null :  () {
+              ElevatedButton(onPressed: currentTrack == null ? null :  () {
                 debugPrint("Text Note");
                 _createTextNote(context);
               },
                   child: const Text("Text Note")
               ),
-              ElevatedButton(onPressed: () {
+              ElevatedButton(onPressed: currentTrack == null ? null :  () {
                 _recordAudioNote();
                 debugPrint("Voice Note");
               },
                   child: const Text("Voice Note")
               ),
-              ElevatedButton(onPressed: () {
+              ElevatedButton(onPressed: currentTrack == null ? null :  () {
                 debugPrint("Take Picture");
                 _takePicture();
               },
@@ -183,8 +192,16 @@ class _MapState extends State<MapScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {debugPrint("Would Re-center map on GPS loc");  },
-        tooltip: 'Annotate',
+        onPressed: () async {
+          debugPrint("Getting location to re-center");
+          _locationData = await(location.getLocation());
+          debugPrint("Re-center map on GPS loc to $_locationData");
+          controller.move(_locationDataToLatLng(_locationData), 20);
+          setState(() {
+            // empty
+          });
+        },
+        tooltip: 'Re-Center',
         child: Icon(Icons.gps_fixed_sharp),
       ),
     );
@@ -205,15 +222,14 @@ class _MapState extends State<MapScreen> {
   }
 
   void _stopTracking() async {
-    currentTrack = null;
-    //if (currentRunLocations.isNotEmpty) {
-      // String gpxString = _buildGPXString(currentRunLocations);
+    if (SettingsState.isAutoUpload()) {
+      String gpxString = Gpx.buildGPXString(currentTrack!);
       // await _saveGPXToFile(gpxString);
-      // await _databaseHelper.deleteLocations();
-   // }
-    setState(() {
-      // empty
-    });
+      }
+      setState(() {
+        currentTrack = null;
+      });
+
   }
 
   void _createTextNote(BuildContext context) async {
