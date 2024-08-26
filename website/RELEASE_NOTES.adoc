@@ -13,6 +13,11 @@ and we haven't caught up. However, tracks are saved in an SQLITE3
 database on-device and can be saved to a file; either form will 
 be uploadable in the next revision, due in a few weeks.
 
+Buglet: after taking a picture, due to an issue with the photo library
+we're using, the "checkbox" button appears black-on-black. 
+Just tap in the lower right of the screen to make the checkbox appear,
+or the lower left to cancel it.
+
 == Version 1.1.0 - 2024-07-15
 
 No significant changes, but MINSDK is now 21 (Android 5!)
