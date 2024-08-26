@@ -439,6 +439,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
+<h2 id="_version_2_0_0_new_again">Version 2.0.0 "New Again"</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Complete rewrite in Flutter, so we can run on iOS as well as Android.
+Addresses newer Android releases, as required by Google Play.</p>
+</div>
+<div class="paragraph">
+<p>UI is significantly improved, and much more modern.</p>
+</div>
+<div class="paragraph">
+<p>Uploading to OSM is temporarily disabled, as OSM recently completely
+changed their authentication mechanism (from "BASIC" to "OAUTH2")
+and we haven&#8217;t caught up. However, tracks are saved in an SQLITE3
+database on-device and can be saved to a file; either form will
+be uploadable in the next revision, due in a few weeks.</p>
+</div>
+<div class="paragraph">
+<p>Buglet: after taking a picture, due to an issue with the photo library
+we&#8217;re using, the "checkbox" button appears black-on-black.
+Just tap in the lower right of the screen to make the checkbox appear,
+or the lower left to cancel it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_version_1_1_0_2024_07_15">Version 1.1.0 - 2024-07-15</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -447,13 +472,8 @@ Release primarily to address new Android versions.</p>
 </div>
 <div class="paragraph">
 <p>This version is still written in Java for the Android SDK.
-A future version may be written in Flutter, which would allow
-the app to also appear on the Apple App Store.
-Such a version will remain compatible at the user level.</p>
-</div>
-<div class="paragraph">
-<p>You can submit errata, bug fixes, pull requests etc on the
-<a href="https://github.com/IanDarwin/jpstrack.android">project&#8217;s github</a>.</p>
+The next version will be written in Flutter, which would allow
+the app to also appear on the Apple App Store.</p>
 </div>
 </div>
 </div>
@@ -571,7 +591,7 @@ artist-fu should work on them.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-14 09:22:10 -0400
+Last updated 2024-08-26 14:09:52 -0400
 </div>
 </div>
 </body>
