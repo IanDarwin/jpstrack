@@ -42,6 +42,8 @@ class _MapState extends State<MapScreen> {
   late bool _serviceEnabled;
   double zoom = 20;
   late PermissionStatus _permissionGranted;
+  late Stream<LocationData> locationStream;
+  late void Function(LocationData locationData) onData;
   LocationData _locationData = LocationData.fromMap(
       {
         "latitude":51.6,
@@ -76,6 +78,17 @@ class _MapState extends State<MapScreen> {
         return;
       }
     }
+
+    // Create listener, used in starting and resuming updates
+    onData = (LocationData locationData) {
+      debugPrint("Stream -> $locationData");
+      int id = currentTrack!.id;
+      _databaseHelper.insertLocation(locationData, id);
+      setState(() {
+        _locationData = locationData;
+        controller.move(_locationDataToLatLng(_locationData), 20);
+      });
+    };
 
     // Yes, please keep mapping running in background.
     try {
@@ -155,9 +168,9 @@ class _MapState extends State<MapScreen> {
                     child: Text(paused?"Resume":"Pause"),
                     onPressed: () {
                       if (paused) {
-                        debugPrint("Resuming...");
+                        _resumeTracking();
                       } else {
-                        debugPrint("Pausing...");
+                        _pauseTracking();
                       }
                       setState(() {
                         paused = !paused;
@@ -247,14 +260,20 @@ class _MapState extends State<MapScreen> {
     currentTrack = Track(0, DateTime.now());
     final int id = await DatabaseHelper().insertTrack(currentTrack!);
     currentTrack!.id = id;
-    Stream<LocationData> locationStream = _locationService.getLocationStream();
-    locationStream.listen((LocationData locationData) {
-      _databaseHelper.insertLocation(locationData, id);
-      setState(() {
-        _locationData = locationData;
-        controller.move(_locationDataToLatLng(_locationData), 20);
-      });
-    });
+    locationStream = _locationService.getLocationStream();
+    locationStream.listen(onData);
+  }
+
+  void _pauseTracking() async {
+    debugPrint("Pausing...");
+    locationStream = _locationService.getLocationStream();
+    locationStream.listen(null);
+  }
+
+  void _resumeTracking() async {
+    debugPrint("Resuming...");
+    locationStream = _locationService.getLocationStream();
+    locationStream.listen(onData);
   }
 
   void _stopTracking() async {
