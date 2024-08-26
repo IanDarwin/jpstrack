@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +9,7 @@ import 'package:jpstrack/main.dart' show dateFormat;
 import 'package:jpstrack/io/gpx.dart';
 import 'package:jpstrack/ui/nav_drawer.dart';
 import 'package:jpstrack/ui/settings_page.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../constants.dart';
 
@@ -65,33 +67,26 @@ class ExportListState extends State<ExportPage> {
                       subtitle: Text("Track with ${track.steps.length} items"),
                       trailing: Wrap(children: [
                         IconButton(
-                          disabledColor: Colors.grey,
-                            constraints: BoxConstraints(maxWidth: 40),
-                            icon: Icon(Icons.map),
-                            onPressed: null
-                        ),
-                        IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.upload),
-                            onPressed: () async {
-                              print("Upload");
-                              uploadToOSM(track);
-                            }),
+                            onPressed: null,
+                             // () async {
+                              //print("Upload");
+                              //uploadToOSM(track);
+                            //}
+                            ),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.save),
                             onPressed: () {
-                              print("Save");
+                              print("Save ${track.id}");
+                              exportTrackToFile(track);
                             }),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.delete_forever),
                             onPressed: () async {
-                              print("Delete");
-                              await DatabaseHelper().deleteTrack(track);
-                              setState(() {
-                                // empty
-                              });
+                              await delete_track(track);
                             }),
                       ]),
                     );
@@ -129,5 +124,63 @@ class ExportListState extends State<ExportPage> {
     } catch (e) {
       print('Error uploading data: $e');
     }
+  }
+
+  void exportTrackToFile(Track track) async {
+    String trackAsGpx = Gpx.buildGPXString(track);
+    Directory appDir = (await getApplicationDocumentsDirectory());
+    await appDir.create(recursive: true);
+    print("Created ${appDir.absolute}");
+    var file = File("${appDir.path}/jpstrack-${track.id}.gpx");
+    await file.writeAsString(trackAsGpx);
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder:  (context) => AlertDialog(
+                title: const Text("Export Complete"),
+                content: Text(
+                    "Exported ${track.steps.length} points to file ${file}"),
+                actions: <Widget> [
+                  TextButton(
+                      child: Text("OK"),
+                      onPressed: () async {
+                        Navigator.of(context).pop(); // Alert
+                      }
+                  )
+                ]
+            )
+        )
+    );
+  }
+
+  Future<void> delete_track(Track track) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder:  (context) => AlertDialog(
+                title: const Text("Really Delete?"),
+                content: Text(
+                    "Deleting track with ${track.steps.length} points cannot be undone!"),
+                actions: <Widget> [
+                  TextButton(
+                      child: Text("Really Delete"),
+                      onPressed: () async {
+                        Navigator.of(context).pop(); // Alert
+                        await DatabaseHelper().deleteTrack(track);
+                        setState(() {
+                          // empty
+                        });
+                      }
+                  ),
+                  TextButton(
+                      child: Text("Cancel"),
+                      onPressed: () async {
+                        Navigator.of(context).pop(); // Alert
+                      }
+                  )
+                ]
+            )
+        )
+    );
   }
 }

@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/intl.dart';
 import 'package:jpstrack/db/database_helper.dart';
+import 'package:jpstrack/io/gpx.dart';
+import 'package:jpstrack/model/track.dart';
 import 'package:jpstrack/service/location_service.dart';
 import 'package:jpstrack/ui/settings_page.dart';
 import 'package:jpstrack/ui/take_picture.dart';
@@ -12,8 +16,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../io/gpx.dart';
-import '../model/track.dart';
 import 'audio_note.dart';
 import 'export_track.dart';
 
@@ -73,8 +75,35 @@ class _MapState extends State<MapScreen> {
         return;
       }
     }
-    // Yes, please keep mapping in background.
-    location.enableBackgroundMode(enable: true);
+
+    // Yes, please keep mapping running in background.
+    try {
+      await location.enableBackgroundMode(enable: true);
+    } on PlatformException catch (_) {
+      await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => AlertDialog(
+              title: const Text("Permission problem"),
+              content: const Text(
+              "Can't enable background saving.\n" +
+              'Please enable "Always Allow" location permission ' +
+              'in "Settings->Apps->jpstrack"'),
+              actions: [
+                TextButton(
+                  child: Text("Settings"),
+                  onPressed: () async {
+                    AppSettings.openAppSettings(type: AppSettingsType.location);
+                  }
+                ),
+                TextButton(
+                    child: Text("Close"),
+                    onPressed: () async {
+                      Navigator.of(context).pop(); // alert
+                    }
+                )
+              ]
+          )));
+    }
+
     //_locationData = await location.getLocation();
     location.changeSettings(
         accuracy: LocationAccuracy.high,
@@ -114,59 +143,59 @@ class _MapState extends State<MapScreen> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-              ElevatedButton(
-                  child: Text("Track"),
-                  onPressed: currentTrack != null ? null :  () {
-                    debugPrint("Starting to listen for updates");
-                    _startTracking();
+                  ElevatedButton(
+                    child: Text("Track"),
+                    onPressed: currentTrack != null ? null :  () {
+                      debugPrint("Starting to listen for updates");
+                      _startTracking();
                     },
-              ),
-              ElevatedButton(
-                child: Text("Pause"),
-                onPressed: () {
-                  debugPrint("Pausing...");
-                  // _str.close(); // ??
-                },
-              ),
-              ElevatedButton(
-                child: Text("Stop"),
-                onPressed: currentTrack == null ? null :  () {
-                  debugPrint("Stopping...");
-                  _stopTracking();
-                },
-              ),
-			  ElevatedButton(onPressed: () {
-				debugPrint("Export requested");
-				Navigator.push(context, MaterialPageRoute(
-					builder: (context) => ExportPage()));
-			  },
-				  child: const Text("Export"),
-			  )
-            ]),
+                  ),
+                  ElevatedButton(
+                    child: Text("Pause"),
+                    onPressed: () {
+                      debugPrint("Pausing...");
+                      // _str.close(); // ??
+                    },
+                  ),
+                  ElevatedButton(
+                    child: Text("Stop"),
+                    onPressed: currentTrack == null ? null :  () {
+                      debugPrint("Stopping...");
+                      _stopTracking();
+                    },
+                  ),
+                  ElevatedButton(onPressed: () {
+                    debugPrint("Export requested");
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => ExportPage()));
+                  },
+                    child: const Text("Export"),
+                  )
+                ]),
 
             // Second row of buttons: adding notes
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
-              ElevatedButton(onPressed: currentTrack == null ? null :  () {
-                debugPrint("Text Note");
-                _createTextNote(context);
-              },
-                  child: const Text("Text Note")
-              ),
-              ElevatedButton(onPressed: currentTrack == null ? null :  () {
-                _recordAudioNote();
-                debugPrint("Voice Note");
-              },
-                  child: const Text("Voice Note")
-              ),
-              ElevatedButton(onPressed: currentTrack == null ? null :  () {
-                debugPrint("Take Picture");
-                _takePicture();
-              },
-                  child: const Text("Take Picture")
-              ),
-            ]),
+                  ElevatedButton(onPressed: currentTrack == null ? null :  () {
+                    debugPrint("Text Note");
+                    _createTextNote(context);
+                  },
+                      child: const Text("Text Note")
+                  ),
+                  ElevatedButton(onPressed: currentTrack == null ? null :  () {
+                    _recordAudioNote();
+                    debugPrint("Voice Note");
+                  },
+                      child: const Text("Voice Note")
+                  ),
+                  ElevatedButton(onPressed: currentTrack == null ? null :  () {
+                    debugPrint("Take Picture");
+                    _takePicture();
+                  },
+                      child: const Text("Take Picture")
+                  ),
+                ]),
 
             Row(children:[
               Text("Latitude", style: labelStyle),
@@ -225,10 +254,10 @@ class _MapState extends State<MapScreen> {
     if (SettingsState.isAutoUpload()) {
       String gpxString = Gpx.buildGPXString(currentTrack!);
       // await _saveGPXToFile(gpxString);
-      }
-      setState(() {
-        currentTrack = null;
-      });
+    }
+    setState(() {
+      currentTrack = null;
+    });
 
   }
 
