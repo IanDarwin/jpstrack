@@ -17,9 +17,7 @@ your OpenStreetMap account."
 Note that the mobile application saves some of this data onto your
 device, but we do not capture ANY of it to our web service. We do save
 your OpenStreetMap account name onto your device. We do not save your
-OSM password, out of an abundance of caution. The application is open
-source so you can verify this yourself, by looking at
-https://github.com/IanDarwin/jpstrack.android[the github repo.]
+OSM password, out of an abundance of caution.
 
 The only time we upload identifiable stuff is to OpenStreetMap. In that
 case, you are covered by OpenStreetMap's own privacy policy, which we
@@ -48,6 +46,10 @@ storage.
 |INTERNET |To upload data to openstreetmap's database, only if you
 provide an account and password, and for uploading anonymous crash
 reporting info.
+
+|ACCESS_BACKGROUND_LOCATION | Get points while app is in background
+|FOREGROUND_SERVICE| Ditto
+|FOREGROUND_SERVICE_LOCATION| Ditto
 |===
 
 === Contact
