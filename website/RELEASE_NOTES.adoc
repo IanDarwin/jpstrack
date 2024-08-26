@@ -1,17 +1,26 @@
 = jpstrack, the Open Streetmap and GPX data collector
 
+== Version 2.0.0 "New Again"
+
+Complete rewrite in Flutter, so we can run on iOS as well as Android.
+Addresses newer Android releases, as required by Google Play.
+
+UI is significantly improved, and much more modern.
+
+Uploading to OSM is temporarily disabled, as OSM recently completely
+changed their authentication mechanism (from "BASIC" to "OAUTH2")
+and we haven't caught up. However, tracks are saved in an SQLITE3
+database on-device and can be saved to a file; either form will 
+be uploadable in the next revision, due in a few weeks.
+
 == Version 1.1.0 - 2024-07-15
 
 No significant changes, but MINSDK is now 21 (Android 5!)
 Release primarily to address new Android versions.
 
 This version is still written in Java for the Android SDK.
-A future version may be written in Flutter, which would allow
+The next version will be written in Flutter, which would allow
 the app to also appear on the Apple App Store. 
-Such a version will remain compatible at the user level.
-
-You can submit errata, bug fixes, pull requests etc on the
-https://github.com/IanDarwin/jpstrack.android[project's github].
 
 == Version 1.0.4 - early 2020s, not released.
 
