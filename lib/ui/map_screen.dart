@@ -52,6 +52,7 @@ class _MapState extends State<MapScreen> {
   );
   var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
   var infoStyle = TextStyle(fontSize: 28);
+  bool paused = false;
 
   @override
   void initState() {
@@ -151,10 +152,16 @@ class _MapState extends State<MapScreen> {
                     },
                   ),
                   ElevatedButton(
-                    child: Text("Pause"),
+                    child: Text(paused?"Resume":"Pause"),
                     onPressed: () {
-                      debugPrint("Pausing...");
-                      // _str.close(); // ??
+                      if (paused) {
+                        debugPrint("Resuming...");
+                      } else {
+                        debugPrint("Pausing...");
+                      }
+                      setState(() {
+                        paused = !paused;
+                      });
                     },
                   ),
                   ElevatedButton(
