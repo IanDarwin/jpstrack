@@ -4,7 +4,7 @@ description: GPX-tracking GPS App for creating OpenStreetMap/Google Earth data
 
 publish_to: 'none' # This is an app, not a library, so don't publish as lib
 
-version: 1.0.0+1
+version: 2.0.0+200
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   audioplayers: ^6.0.0
-  cached_network_image: any
+  cached_network_image: ^3.4.0
   flutter_map: ^7.0.2
   flutter_settings_screens: ^0.3.4
   flutter_widget_from_html: ^0.15.1
