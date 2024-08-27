@@ -1,5 +1,5 @@
 push:
-	git push origin master; git push backup master
+	git push origin main; git push backup main
 release release-packages appbundles:
 	@echo "************************************************"
 	@echo "**     Building releases for Android, iOS     **"
