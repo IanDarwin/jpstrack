@@ -4,6 +4,7 @@ import 'package:jpstrack/ui/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
+import '../main.dart' show packageInfo;
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -37,7 +38,7 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             icon: const Icon(Icons.info),
             applicationIcon: const FlutterLogo(),
             applicationName: 'jpsTrack',
-            applicationVersion: 'Flutter Version, July 2024',
+            applicationVersion: 'Version ${packageInfo.version} Build ${int.parse(packageInfo.buildNumber)}, August 2024',
             applicationLegalese:
               '\u{a9} 2007-2024 Rejminet Group Inc.',
             aboutBoxChildren: aboutBoxChildren,

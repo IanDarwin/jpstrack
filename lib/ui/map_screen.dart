@@ -123,7 +123,7 @@ class _MapState extends State<MapScreen> {
         accuracy: LocationAccuracy.high,
         interval: 10000,
         distanceFilter: 5.0);
-    controller.mapEventStream.listen((event) {  debugPrint("Event: $event"); });
+    // controller.mapEventStream.listen((event) {  debugPrint("Event: $event"); });
   }
 
   Widget build(BuildContext context) {
