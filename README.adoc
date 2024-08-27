@@ -15,3 +15,22 @@ Android users will be updated automatically from the old version
 to this one, once it gets into the play store.
 
 The minimum version of Android is now API 23 (Android 6).
+
+== ToDo
+
+Such apps are never complete. Here are some things that need doing:
+
+=== Most Urgent
+
+SHIP with temporariness note.
+
+=== Next Version
+
+UPLOAD WITH OAUTH2
+
+=== After That
+
+Handle zoom?
+
+Voice note: transcribe, using https://github.com/MarcusNg/flutter_voice ?
+
