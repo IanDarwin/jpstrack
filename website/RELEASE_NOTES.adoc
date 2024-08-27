@@ -45,15 +45,11 @@ Fixes a bug that caused the app to stop recording when the phone went idle.
 Prevent using back button during voice recording, as this leaves the recorder
 in a confused state.
 
-Further small changes to the XML detected when auto-loading was enabled. Traces now
-get uploaded and import successfully.
+Further small changes to the XML detected when auto-loading was
+enabled. Traces now get uploaded and import successfully.
 
 There is a proper buglist in a database on our server, although it's not yet
 web-accessible, so your suggestions are being saved and acted upon.
-
-Releases are only being released for Android due to an "issue" with our password
-for BlackBerry. Hope to have this resolved soon. You can always load the APK
-directly from http://darwinsys.com/jpstrack and current BB10 will install it.
 
 == Version 0.8 - 2014-01-27
 
@@ -100,4 +96,4 @@ This is a Beta release. Please note the following:
 
 If you find any new ways to crash it, please email or use this:
 
-http://darwinsys.com/contact
+https://darwinsys.com/contact
