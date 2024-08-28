@@ -1,5 +1,10 @@
 = jpstrack, the Open Streetmap and GPX data collector
 
+== Version 2.0.1
+
+Minor fix release after 2.0.0: Show Export page when you Stop recording a track.
+Shows the Welcome web page with important disclaimers the first time you run this version.
+
 == Version 2.0.0 "New Again"
 
 Complete rewrite in Flutter, so we can run on iOS as well as Android.
@@ -14,7 +19,7 @@ database on-device and can be saved to a file; either form will
 be uploadable in the next revision, due in a few weeks.
 
 Buglet: after taking a picture, due to an issue with the photo library
-we're using, the "checkbox" button appears black-on-black. 
+we're using, the "checkbox" button appears black-on-black on some devices.
 Just tap in the lower right of the screen to make the checkbox appear,
 or the lower left to cancel it.
 

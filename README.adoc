@@ -22,7 +22,9 @@ Such apps are never complete. Here are some things that need doing:
 
 === Most Urgent
 
-SHIP with temporariness note.
+SHIP with note that upload is disabled.
+
+Move Menu to right side, in Export page.
 
 === Next Version
 
