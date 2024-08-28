@@ -1,4 +1,5 @@
 
+import 'package:location/location.dart';
 import 'package:xml/xml.dart' as xml;
 
 import '../model/track.dart';
@@ -8,11 +9,11 @@ class Gpx {
   static String buildGPXString(Track track) {
     xml.XmlBuilder builder = xml.XmlBuilder();
     builder.processing('xml', 'version="1.0" encoding="UTF-8"');
-    builder.element('gpx', namespaces: {
-      'gpxtpx': 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
-    }, attributes: {
-      'version': '1.1',
-      'creator': 'jpstrack',
+    builder.element('gpx',
+        attributes: {
+        'xmlns':'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
+        'version': '1.1',
+        'creator': 'jpstrack',
     }, nest: () {
       builder.element('trk', nest: () {
         builder.element('name', nest: 'Track ${track.id}');
@@ -32,4 +33,12 @@ class Gpx {
     });
     return builder.buildDocument().toXmlString(pretty: true, indent: '  ');
   }
+}
+
+void main()  {
+  var dataMap = { 'latitude':20.0, 'longitude': 0, 'altitude': 50 };
+  LocationData data = LocationData.fromMap(dataMap);
+  Track t = Track(5, DateTime(2044, 6, 10, 23, 59));
+  t.add(data);
+  print(Gpx.buildGPXString(t));
 }
