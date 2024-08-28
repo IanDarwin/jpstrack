@@ -16,8 +16,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'audio_note.dart';
-import 'export_track.dart';
+import 'package:jpstrack/main.dart' show prefs, seenWelcome, showWelcome;
+import 'package:jpstrack/ui/audio_note.dart';
+import 'package:jpstrack/ui/export_track.dart';
 
 ///
 /// The real "main" page of the application. Shows current lat/long, and underneath all,
@@ -60,6 +61,10 @@ class _MapState extends State<MapScreen> {
   void initState() {
     _initLocation();
     super.initState();
+    if (!seenWelcome) {
+      showWelcome();
+      prefs.setBool("key_seen_welcome", true);
+    }
   }
 
   void _initLocation() async {

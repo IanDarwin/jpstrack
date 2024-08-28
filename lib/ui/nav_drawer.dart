@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:jpstrack/ui/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constants.dart';
-import '../main.dart' show packageInfo;
+import 'package:jpstrack/ui/settings_page.dart';
+import 'package:jpstrack/main.dart' show packageInfo, seenWelcome, showWelcome;
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -14,7 +13,7 @@ class NavDrawer extends StatelessWidget {
 <html lang="en">
 <h3>About jpsTrack</h3>
 JpsTrack is a Map Maker application,
-a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data
+a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data.
 This program is <em>not</em> a navigation app for getting from point A to point B.
 """)];
     return Drawer(
@@ -46,12 +45,10 @@ This program is <em>not</em> a navigation app for getting from point A to point 
           ListTile(
             leading: Icon(Icons.help),
             title: Text('JpsTrack Intro'),
-            onTap: () async {
-              final Uri url = Uri.parse(Constants.URL_ABOUT);
-              if (!await launchUrl(url)) {
-                throw Exception("Failed to launch browser");
-              };
-            },
+            onTap: () {
+              showWelcome();
+              seenWelcome = true;
+            }
           ),
           ListTile(
             leading: Icon(Icons.settings),
