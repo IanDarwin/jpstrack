@@ -7,10 +7,13 @@ https://www.openstreetmap.org/[OpenStreetMap], the free, editable map of
 the world, Google Maps, or any other application
 which can import GPX-format track data.
 
-**Disclosure**: This app uses the "background location" feature to
+[CAUTION]
+====
+This app uses the "background location" feature to
 keep tracking while in the background, e.g., if you get a phone call
 or send a text while creating a track.  _Be aware that it will keep
 tracking your movements_ until you click the Stop (or Pause) buttons.
+====
 
 This is NOT a Navigation application (there are many of those
 in the app stores already). 
