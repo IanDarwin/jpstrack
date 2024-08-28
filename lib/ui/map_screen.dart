@@ -160,13 +160,16 @@ class _MapState extends State<MapScreen> {
                   ElevatedButton(
                     child: Text("Track"),
                     onPressed: currentTrack != null ? null :  () {
-                      debugPrint("Starting to listen for updates");
+                      // Redraw first, start may take a while if net slow/offline
+                      setState(() {
+                        // empty, force redraw
+                      });
                       _startTracking();
                     },
                   ),
                   ElevatedButton(
                     child: Text(paused?"Resume":"Pause"),
-                    onPressed: () {
+                    onPressed: currentTrack == null ? null : () {
                       if (paused) {
                         _resumeTracking();
                       } else {
@@ -182,6 +185,9 @@ class _MapState extends State<MapScreen> {
                     onPressed: currentTrack == null ? null :  () {
                       debugPrint("Stopping...");
                       _stopTracking();
+                      // Let's go directly to the Export page now!
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => ExportPage()));
                     },
                   ),
                   ElevatedButton(onPressed: () {
@@ -257,6 +263,7 @@ class _MapState extends State<MapScreen> {
   }
 
   void _startTracking() async {
+    debugPrint("Starting to listen for updates");
     currentTrack = Track(0, DateTime.now());
     final int id = await DatabaseHelper().insertTrack(currentTrack!);
     currentTrack!.id = id;
@@ -277,6 +284,7 @@ class _MapState extends State<MapScreen> {
   }
 
   void _stopTracking() async {
+    debugPrint("Stopping listening for updates");
     if (SettingsState.isAutoUpload()) {
       String gpxString = Gpx.buildGPXString(currentTrack!);
       // await _saveGPXToFile(gpxString);

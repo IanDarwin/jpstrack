@@ -55,15 +55,14 @@ class ExportListState extends State<ExportPage> {
                 );
               };
               print("ListPage: n=${snapshot.data!.length}");
-              debugPrint("In export builder with ${snapshot.data!.length}");
+              debugPrint("In export builder with ${snapshot.data!.length} tracks");
               return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    debugPrint("In ItemBuilder for $index");
                     var track = snapshot.data![index];
                     return ListTile(
                       title: Text("${dateFormat.format(track.time)}"),
-                      subtitle: Text("Track with ${track.steps.length} items"),
+                      subtitle: Text("Track with ${track.steps.length} wayadpoints"),
                       trailing: Wrap(children: [
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),

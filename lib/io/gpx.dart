@@ -2,7 +2,7 @@
 import 'package:location/location.dart';
 import 'package:xml/xml.dart' as xml;
 
-import '../model/track.dart';
+import 'package:jpstrack/model/track.dart';
 
 // GPX Writer, written by ChatGPT
 class Gpx {
@@ -13,7 +13,7 @@ class Gpx {
         attributes: {
         'xmlns':'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
         'version': '1.1',
-        'creator': 'jpstrack',
+        'creator': 'https://darwinsys.com/jpstrack',
     }, nest: () {
       builder.element('trk', nest: () {
         builder.element('name', nest: 'Track ${track.id}');
