@@ -1,4 +1,4 @@
-= JPSTrack - Mobile GPX Tracker
+= JPSTrack, a GPX Tracker
 
 This program collects mapping data for inclusion into
 https://www.openstreetmap.org/[OpenStreetMap] (the free, editable map of the world),

@@ -7,4 +7,5 @@ privacy.html:	privacy.adoc
 RELEASE_NOTES.html:	RELEASE_NOTES.adoc
 	asciidoctor RELEASE_NOTES.adoc
 install:	$(GENERATED)
+	git pull
 	cp -r * /var/www/htdocs/darwinsys.com/jpstrack
