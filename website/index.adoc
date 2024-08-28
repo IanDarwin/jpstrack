@@ -25,8 +25,8 @@ This is NOT a route-from-here-to-there Navigation application (there are many of
 in the app stores already). 
 Also, it does NOT try to be an OSM editor. In the author's
 experience, most current Android devices do not have the I/O capability
-to do this job well. I recommend uploading the files (from
-/sdcard/jpstrack) to a desktop PC and runnnig the JOSM editor or
+to do this job well. I recommend uploading the files 
+to a desktop PC and runnnig the JOSM editor or
 using the web-based editor on the OSM site.
 
 JPSTrack differs from Google's own My Tracks in that it is much more
