@@ -1,11 +1,9 @@
 = JPSTrack - Mobile GPX Tracker
 
-== What Is JPSTrack?
-
-This program collects data for inclusion into
-https://www.openstreetmap.org/[OpenStreetMap], the free, editable map of
-the world, Google Maps, or any other application
-which can import GPX-format track data.
+This program collects mapping data for inclusion into
+https://www.openstreetmap.org/[OpenStreetMap] (the free, editable map of the world),
+https://www.google.com/maps/about/mymaps/[Google Maps],
+or any other application that can import GPX-format track data.
 
 [CAUTION]
 ====
@@ -15,7 +13,15 @@ or send a text while creating a track.  _Be aware that it will keep
 tracking your movements_ until you click the Stop (or Pause) buttons.
 ====
 
-This is NOT a Navigation application (there are many of those
+[CAUTION]
+====
+While in motion (walking, cycling, driving, etc.), please pay attention
+to the world around you, not to your device.
+If you get run over by a truck or drive off a cliff,
+your map data will probably never get used.
+====
+
+This is NOT a route-from-here-to-there Navigation application (there are many of those
 in the app stores already). 
 Also, it does NOT try to be an OSM editor. In the author's
 experience, most current Android devices do not have the I/O capability
