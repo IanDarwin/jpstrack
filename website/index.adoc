@@ -1,10 +1,6 @@
----
-title: JPSTrack - Android OSM Tracker
-date: 2018-01-01
-tags: [openstreetmap,foss,gis]
----
+= JPSTrack - Mobile GPX Tracker
 
-== What?
+== What Is JPSTrack?
 
 This program collects data for inclusion into
 https://www.openstreetmap.org/[OpenStreetMap], the free, editable map of
