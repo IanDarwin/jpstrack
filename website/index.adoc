@@ -49,8 +49,8 @@ program.
 
 Always welcome. Please email jpstrack-feedback@darwinsys.com.
 
-JpsTrack is made for Android releases as old as Android 5+, so it runs
-on just about every device out there.
+JpsTrack runs on most every Android device out there, except for
+the very oldest ones.
 
 This is an early release of the software; please see the
 link:RELEASE_NOTES.txt[Release Notes] before you decide it's buggy; we
@@ -59,10 +59,8 @@ as we have time...
 
 == Where?
 
-You can get the current stable version from
+You can get the current stable version for Android from 
 https://play.google.com/store/apps/details?id=jpstrack.android[Google Play].
-
-You can occasionally link:jpstrack.android.apk[find a beta version here].
 
 == OSM Wiki
 
