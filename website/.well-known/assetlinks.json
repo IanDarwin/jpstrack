@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "jpstrack.android",
+      "sha256_cert_fingerprints":
+        ["24:E7:0C:FD:CD:FC:08:02:42:3B:1D:94:BC:78:68:BC:B8:F4:7C:9A:39:04:39:1A:AF:12:C6:A1:E0:22:F3:74"]
+    }
+  }
+]
