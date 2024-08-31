@@ -52,20 +52,30 @@ This program is <em>not</em> a navigation app for getting from point A to point 
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => (SettingsPage())));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
             title: Text('Privacy Policy'),
             onTap: () async {
               final Uri url = Uri.parse("https://darwinsys.com/jpstrack/privacy.html");
               if (!await launchUrl(url)) {
                 throw Exception("Failed to launch browser");
               }
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Release Notes'),
+            onTap: () async {
+              final Uri url = Uri.parse("https://darwinsys.com/jpstrack/RELEASE_NOTES.html");
+              if (!await launchUrl(url)) {
+                throw Exception("Failed to launch browser");
+              }
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => (SettingsPage())));
             },
           ),
         ],
