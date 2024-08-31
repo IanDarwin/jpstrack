@@ -20,19 +20,27 @@ The minimum version of Android is now API 23 (Android 6).
 
 Such apps are never complete. Here are some things that need doing:
 
-=== Most Urgent
+=== Short Term
 
-SHIP with note that upload is disabled.
+Don't recreate authentication (use from osm_upload.dart?)
+
+Prompt for a comment when uploading, save with Track in case upload fails.
+
+Track: have an uploaded_date field.
 
 Move Menu to right side, in Export page.
 
+Export: Use getExternalStorageDirectory on Android, getApplicationStorage on iOS.
+
 === Next Version
 
-UPLOAD WITH OAUTH2
+TBA
 
 === After That
 
-Handle zoom?
+Roll out to iOS.
+
+Deal better with the zoom ratio?
 
 Voice note: transcribe, using https://github.com/MarcusNg/flutter_voice ?
 
