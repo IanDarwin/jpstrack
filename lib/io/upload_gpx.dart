@@ -130,7 +130,7 @@ class UploadGpxScreenState extends State<UploadGpxScreen> {
         ..files.add(mp)
         ..headers['Authorization'] = 'Bearer $bearerAuth'
         ..fields['file'] = 'filename1'
-        ..fields['description'] = 'GPX track upload'
+        ..fields['description'] = 'GPX Map Track created by JPSTrack v2'
         ..fields['visibility'] = 'public';
       if (!prodMode) {
         debugPrint('Request: ${request.toString()}');
