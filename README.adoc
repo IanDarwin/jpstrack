@@ -28,7 +28,13 @@ Move Menu to right side, in Export page.
 
 === Next Version
 
-UPLOAD WITH OAUTH2
+UPLOAD WITH OAUTH2 LOGIN
+
+SETTINGS
+	Add "seconds interval" and "min distance"
+	Show/hide password
+
+YT video for 2.0.1 https://youtu.be/VNkTrJkEVDU
 
 === After That
 

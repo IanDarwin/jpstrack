@@ -11,6 +11,7 @@ import 'package:jpstrack/ui/settings_page.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../constants.dart';
+import '../io/upload_gpx.dart';
 
 /// Activity for Export
 ///
@@ -67,12 +68,10 @@ class ExportListState extends State<ExportPage> {
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.upload),
-                            onPressed: null,
-                             // () async {
-                              //print("Upload");
-                              //uploadToOSM(track);
-                            //}
-                            ),
+                            onPressed:  () async {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => UploadGpxScreen(track)));
+                            }),
                         IconButton(
                             constraints: BoxConstraints(maxWidth: 40),
                             icon: Icon(Icons.save),

@@ -1,0 +1,19 @@
+You have to create your own with your own OSM OAuth2 keys!
+
+-----
+
+part of 'upload_gpx.dart';
+
+const bool prodMode = false;
+
+final authorizationEndpoint = Uri.parse(...);
+final tokenEndpoint = Uri.parse(...);
+const clientId = '...';
+const secret = '...';
+const apiHost =
+    prodMode ?
+        'api.openstreetmap.org' :
+        'master.apis.dev.openstreetmap.org';
+
+final redirectUrl = Uri.parse('https://your-domain.com/authok');
+
