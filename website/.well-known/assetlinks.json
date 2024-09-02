@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "jpstrack.android",
+      "package_name": "com.example.oa2demo",
       "sha256_cert_fingerprints":
         [
           "72:D9:90:25:7E:9F:5C:EA:0A:1F:B4:CE:73:86:9F:69:A2:CF:52:D9:10:13:E2:8D:71:42:B8:43:B1:F3:7A:58",
