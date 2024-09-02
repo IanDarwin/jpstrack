@@ -1,4 +1,4 @@
-= JPSTrack, a GPX Tracker
+= JPSTrack, a GPS/GPX Tracker
 
 This program collects mapping data for inclusion into
 https://www.openstreetmap.org/[OpenStreetMap] (the free, editable map of the world),
@@ -9,7 +9,7 @@ or any other application that can import GPX-format track data.
 ====
 This app uses the "background location" feature to
 keep tracking while in the background, e.g., if you get a phone call
-or send a text while creating a track.  _Be aware that it will keep
+or send a text while creating a track.  _Be aware that the app will keep
 tracking your movements_ until you click the Stop (or Pause) buttons.
 ====
 
