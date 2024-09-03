@@ -3,6 +3,7 @@ class Constants {
   // Keys for Settings
   static const String KEY_AUTO_UPLOAD = "auto-upload";
   static const String KEY_LOGIN_NAME = "loginName";
+  static const String KEY_CUSTOM_URL = "custom url";
 
   static const String URL_ABOUT = "https://darwinsys.com/jpstrack";
 
