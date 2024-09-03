@@ -4,6 +4,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:intl/intl.dart';
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/io/gpx.dart';
@@ -19,6 +20,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:jpstrack/main.dart' show prefs, seenWelcome, showWelcome;
 import 'package:jpstrack/ui/audio_note.dart';
 import 'package:jpstrack/ui/export_track.dart';
+
+import '../constants.dart';
 
 ///
 /// The real "main" page of the application. Shows current lat/long, and underneath all,
@@ -290,9 +293,10 @@ class _MapState extends State<MapScreen> {
 
   void _stopTracking() async {
     debugPrint("Stopping listening for updates");
-    if (SettingsState.isAutoUpload()) {
+    if (Settings.getValue<bool>(Constants.KEY_AUTO_UPLOAD, defaultValue: true)!) {
       String gpxString = Gpx.buildGPXString(currentTrack!);
       // await _saveGPXToFile(gpxString);
+      debugPrint("XXX FINISH ME");
     }
     setState(() {
       currentTrack = null;
