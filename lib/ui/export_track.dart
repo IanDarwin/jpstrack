@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:http/http.dart' as http;
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/model/track.dart';
@@ -98,8 +99,8 @@ class ExportListState extends State<ExportPage> {
     try {
       var url = Uri.parse(Constants.URL_UPLOAD);
       String trackAsGpx = Gpx.buildGPXString(track);
-      String username = SettingsState.getLoginName();
-      String passwd = 'abc.123';
+      // String username = SettingsScreen.getLoginName();
+      // String passwd = 'abc.123';
       String oauthToken = "fiddlesticks"; // XXX
       Map<String,String> headerMap = {
         "Authorization": "Bearer $oauthToken",
