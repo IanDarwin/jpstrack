@@ -1,5 +1,6 @@
 = JPSTrack, a GPX Tracker
 
+Not the kind of "tracker" you use to find whether or where your spouse is cheating.
 This program collects mapping data for inclusion into
 https://www.openstreetmap.org/[OpenStreetMap] (the free, editable map of the world),
 https://www.google.com/maps/about/mymaps/[Google Maps],
