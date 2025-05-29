@@ -56,7 +56,7 @@ class ExportListState extends State<ExportPage> {
                   child: Text("No tracks yet; add one using 'Track'"),
                 );
               };
-              print("ListPage: n=${snapshot.data!.length}");
+              debugPrint("ListPage: n=${snapshot.data!.length}");
               debugPrint("In export builder with ${snapshot.data!.length} tracks");
               return ListView.builder(
                   itemCount: snapshot.data!.length,
@@ -67,22 +67,22 @@ class ExportListState extends State<ExportPage> {
                       subtitle: Text("Track with ${track.steps.length} wayadpoints"),
                       trailing: Wrap(children: [
                         IconButton(
-                            constraints: BoxConstraints(maxWidth: 40),
-                            icon: Icon(Icons.upload),
+                            constraints: const BoxConstraints(maxWidth: 40),
+                            icon: const Icon(Icons.upload),
                             onPressed:  () async {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (ctx) => UploadGpxScreen(track)));
                             }),
                         IconButton(
-                            constraints: BoxConstraints(maxWidth: 40),
-                            icon: Icon(Icons.save),
+                            constraints: const BoxConstraints(maxWidth: 40),
+                            icon: const Icon(Icons.save),
                             onPressed: () {
                               print("Save Track # ${track.id}");
                               exportTrackToFile(track);
                             }),
                         IconButton(
-                            constraints: BoxConstraints(maxWidth: 40),
-                            icon: Icon(Icons.delete_forever),
+                            constraints: const BoxConstraints(maxWidth: 40),
+                            icon: const Icon(Icons.delete_forever),
                             onPressed: () async {
                               await delete_track(track);
                             }),
@@ -126,9 +126,10 @@ class ExportListState extends State<ExportPage> {
 
   void exportTrackToFile(Track track) async {
     String trackAsGpx = Gpx.buildGPXString(track);
-    Directory appDir = (await getApplicationDocumentsDirectory());
+    Directory appDir = Platform.isIOS ?
+      await getApplicationDocumentsDirectory():
+      await getExternalStorageDirectory() as Directory;
     await appDir.create(recursive: true);
-    print("Created ${appDir.absolute}");
     var file = File("${appDir.path}/jpstrack-${track.id}.gpx");
     await file.writeAsString(trackAsGpx);
     await Navigator.push(
