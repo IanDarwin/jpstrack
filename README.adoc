@@ -8,11 +8,14 @@ This program is not a navigation app for getting from point A to point B.
 
 I wrote the first version of jpsTrack in 2007 as a Java SE application.
 A few years after that - starting in 2010 - I wrote an Android user interface,
-also in Java.
+also in Java. I named this version 'jpstrack.android', and it went into the
+Google Play store with that name.
 
+Fast-forward a decade and a half, and it was time for a rewrite.
 This is an all-new implementation in Flutter, to run on both Android and iOS.
-Android users will be updated automatically from the old version
-to this one, once it gets into the play store.
+Android users were updated automatically from the old version
+to this one, but for that to work I had to keep the old version's name,
+so it's still called "jpstrack.android" even though written in Flutter.
 
 The minimum version of Android is now API 23 (Android 6).
 
