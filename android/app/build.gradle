@@ -29,6 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    namespace "jpstrack.android"
     compileSdkVersion flutter.compileSdkVersion
 
     sourceSets {
