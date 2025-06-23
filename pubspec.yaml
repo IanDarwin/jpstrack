@@ -12,7 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^6.0.0
   cached_network_image: ^3.4.0
   flutter_map: ^7.0.2
   flutter_settings_screens: ^0.3.4
