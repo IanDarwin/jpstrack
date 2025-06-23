@@ -62,7 +62,7 @@ class ExportListState extends State<ExportPage> {
                     var track = snapshot.data![index];
                     return ListTile(
                       title: Text("${dateFormat.format(track.time)}"),
-                      subtitle: Text("Track with ${track.steps.length} wayadpoints"),
+                      subtitle: Text("Track with ${track.steps.length} waypoints"),
                       trailing: Wrap(children: [
                         IconButton(
                             constraints: const BoxConstraints(maxWidth: 40),

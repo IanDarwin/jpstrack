@@ -25,15 +25,16 @@ Such apps are never complete. Here are some things that need doing:
 
 === Short Term
 
-Don't recreate authentication (use from osm_upload.dart?)
+Get OAUTH2 working reliably.
 
-Prompt for a comment when uploading, save with Track in case upload fails.
+Export tracks must be to a non-root-private directory.
+Export: Use getExternalStorageDirectory on Android, getApplicationStorage on iOS.
 
-Track: have an uploaded_date field.
+Track class:
+	Prompt for a comment when uploading, save with Track in case upload fails.
+	Add an uploaded_date field.
 
 Move Menu to right side, in Export page.
-
-Export: Use getExternalStorageDirectory on Android, getApplicationStorage on iOS.
 
 === Next Version
 

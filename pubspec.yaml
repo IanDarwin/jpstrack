@@ -48,7 +48,7 @@ flutter_icons:
   android: true
   ios: true
   remove-alpha_ios: true
-  image_path: "images/logo.png"
+  image_path: "images/icon.png"
 
 flutter_intl:
   enabled: true
