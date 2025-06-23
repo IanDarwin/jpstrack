@@ -1,5 +1,16 @@
 = jpstrack, the Open Streetmap and GPX data collector
 
+== Version 2.0.2 - 2025-06-23
+
+Minor fix release:
+
+* "Export/Save" file goes into /sdcard/Download/jpstrack unless SD is dismounted(!),
+in which case someplace in /storage/emulated - in either case, the dialog shows the full path.
+* List of tracks you've made is listed in newest-first order, as is common for such things.
+* The Upload function is still a work in progress, depending on getting OAUTH2 working reliably.
+
+You can use "adb pull" to grab the tracks; the full name is displayed when you save a track to a file.
+
 == Version 2.0.1
 
 Minor fix release after 2.0.0: Show Export page when you Stop recording a track.
@@ -15,8 +26,8 @@ UI is significantly improved, and much more modern.
 Uploading to OSM is temporarily disabled, as OSM recently completely
 changed their authentication mechanism (from "BASIC" to "OAUTH2")
 and we haven't caught up. However, tracks are saved in an SQLITE3
-database on-device and can be saved to a file; either form will 
-be uploadable in the next revision, due in a few weeks.
+database on-device and can be saved to a file; uploading directly to OSM should
+be uploadable in the next release.
 
 Buglet: after taking a picture, due to an issue with the photo library
 we're using, the "checkbox" button appears black-on-black on some devices.

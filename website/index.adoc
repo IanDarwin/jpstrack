@@ -16,10 +16,18 @@ tracking your movements_ until you click the Stop (or Pause) buttons.
 
 [CAUTION]
 ====
+Android users: Note that if you don't give the app Background Location permission, it will stop getting updates
+as soon as you switch to any other app for any reason, or even if your screen blank timeout kicks in.
+You really need to grant this permission.
+====
+
+[CAUTION]
+====
 While in motion (walking, cycling, driving, etc.), please pay attention
 to the world around you, not to your device.
-If you get run over by a truck or drive off a cliff,
+If you get run over by a truck or drive off a cliff or step in front of a moving train,
 your map data will probably never get used.
+And the author of this app accepts no responsibility for whatever happens when you're using it.
 ====
 
 This is NOT a route-from-here-to-there Navigation application (there are many of those

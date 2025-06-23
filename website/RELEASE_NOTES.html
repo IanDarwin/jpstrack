@@ -439,6 +439,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
+<h2 id="_version_2_0_2_2025_06_23">Version 2.0.2 - 2025-06-23</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minor fix release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Export/Save" file goes into /sdcard/Download/jpstrack unless SD is dismounted(!),
+in which case someplace in /storage/emulated - in either case, the dialog shows the full path.</p>
+</li>
+<li>
+<p>List of tracks you&#8217;ve made is listed in newest-first order, as is common for such things.</p>
+</li>
+<li>
+<p>The Upload function is still a work in progress, depending on getting OAUTH2 working reliably.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can use "adb pull" to grab the tracks; the full name is displayed when you save a track to a file.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_version_2_0_1">Version 2.0.1</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -461,8 +486,8 @@ Addresses newer Android releases, as required by Google Play.</p>
 <p>Uploading to OSM is temporarily disabled, as OSM recently completely
 changed their authentication mechanism (from "BASIC" to "OAUTH2")
 and we haven&#8217;t caught up. However, tracks are saved in an SQLITE3
-database on-device and can be saved to a file; either form will
-be uploadable in the next revision, due in a few weeks.</p>
+database on-device and can be saved to a file; uploading directly to OSM should
+be uploadable in the next release.</p>
 </div>
 <div class="paragraph">
 <p>Buglet: after taking a picture, due to an issue with the photo library
@@ -595,7 +620,7 @@ artist-fu should work on them.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-28 15:19:38 -0400
+Last updated 2025-06-23 19:16:37 -0400
 </div>
 </div>
 </body>
