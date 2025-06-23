@@ -31,11 +31,7 @@ Track class:
 	Prompt for a comment when uploading, save with Track in case upload fails.
 	Add an uploaded_date field.
 
-Move Menu to right side, in Export page.
-
 === Next Version
-
-TBA
 
 SETTINGS
 	Add "seconds interval" and "min distance"
