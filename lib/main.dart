@@ -18,16 +18,17 @@ DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
-  seenWelcome = await prefs.getBool("key_seen_welcome")??false;
+  seenWelcome = prefs.getBool("key_seen_welcome")??false;
   packageInfo = await PackageInfo.fromPlatform();
   await Settings.init();
-  await DatabaseHelper();
-  runApp(MapApp());
+  DatabaseHelper();
+  runApp(const MapApp());
 }
 
 // A trivial "main" to scaffold the MapScreen,
 // which is the real main part of the app.
 class MapApp extends StatelessWidget {
+  const MapApp({super.key});
 
   @override
   Widget build(BuildContext context) {

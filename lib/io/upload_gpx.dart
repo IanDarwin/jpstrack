@@ -16,7 +16,7 @@ const proto = 'https';
 const api = "0.6";
 
 class UploadGpxScreen extends StatefulWidget {
-  UploadGpxScreen(this.track, {super.key});
+  const UploadGpxScreen(this.track, {super.key});
   final Track track;
 
   @override
@@ -38,8 +38,8 @@ class UploadGpxScreenState extends State<UploadGpxScreen> {
       appBar: AppBar(
         title: const Text('JPSTrack Upload'),
       ),
-      body: Center(
-        child: const Text('Submitting...'),
+      body: const Center(
+        child: Text('Submitting...'),
       ),
     );
   }

@@ -124,9 +124,14 @@ class ExportListState extends State<ExportPage> {
 
   void exportTrackToFile(Track track) async {
     String trackAsGpx = Gpx.buildGPXString(track);
+    Directory androidNiceDir = Directory("/sdcard/Download/jpstrack");
     Directory appDir = Platform.isIOS ?
       await getApplicationDocumentsDirectory():
-      await getExternalStorageDirectory() as Directory;
+      (
+			await gitDirectory("/sdcard/Download").exists()?
+				androidNiceDir:
+				await getExternalStorageDirectory() as Directory
+	  );
     await appDir.create(recursive: true);
     var file = File("${appDir.path}/jpstrack-${track.id}.gpx");
     await file.writeAsString(trackAsGpx);

@@ -10,7 +10,6 @@ import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/io/gpx.dart';
 import 'package:jpstrack/model/track.dart';
 import 'package:jpstrack/service/location_service.dart';
-import 'package:jpstrack/ui/settings_page.dart';
 import 'package:jpstrack/ui/take_picture.dart';
 import 'package:jpstrack/ui/text_note.dart';
 import 'package:latlong2/latlong.dart';

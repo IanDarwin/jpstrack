@@ -57,7 +57,8 @@ class DatabaseHelper {
 
   Future<List<Track>> getTracks() async {
     Database dbClient = await db;
-    List<Map<String, dynamic>> raw = await dbClient.query('track');
+    List<Map<String, dynamic>> raw =
+		await dbClient.query('track', orderBy: 'time DESC');
     List<Track> retVal = [];
     for (var x in raw) {
       Track track = Track(x['id'], DateTime.fromMillisecondsSinceEpoch(int.parse(x['time'])));

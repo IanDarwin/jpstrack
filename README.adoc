@@ -27,9 +27,6 @@ Such apps are never complete. Here are some things that need doing:
 
 Get OAUTH2 working reliably.
 
-Export tracks must be to a non-root-private directory.
-Export: Use getExternalStorageDirectory on Android, getApplicationStorage on iOS.
-
 Track class:
 	Prompt for a comment when uploading, save with Track in case upload fails.
 	Add an uploaded_date field.
