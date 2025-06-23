@@ -128,7 +128,7 @@ class ExportListState extends State<ExportPage> {
     Directory appDir = Platform.isIOS ?
       await getApplicationDocumentsDirectory():
       (
-			await gitDirectory("/sdcard/Download").exists()?
+			await Directory("/sdcard/Download").exists()?
 				androidNiceDir:
 				await getExternalStorageDirectory() as Directory
 	  );
