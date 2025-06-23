@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:http/http.dart' as http;
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/model/track.dart';
 import 'package:jpstrack/main.dart' show dateFormat;
 import 'package:jpstrack/io/gpx.dart';
 import 'package:jpstrack/ui/nav_drawer.dart';
-import 'package:jpstrack/ui/settings_page.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../constants.dart';
