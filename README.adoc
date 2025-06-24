@@ -32,6 +32,8 @@ Such apps are never complete. Here are some things that need doing:
 
 Get OAUTH2 working reliably.
 
+For iOS, ensure close button on all dependant screens.
+
 Track class:
 	Prompt for a comment when uploading, save with Track in case upload fails.
 	Add an uploaded_date field.
