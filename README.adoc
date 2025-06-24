@@ -17,7 +17,12 @@ Android users were updated automatically from the old version
 to this one, but for that to work I had to keep the old version's name,
 so it's still called "jpstrack.android" even though written in Flutter.
 
-The minimum version of Android is now API 23 (Android 6).
+The app is written entirely in Flutter. GitHub shows HTML as a big chunk
+of the code simply because I keep the website in the same repo as the code.
+"So there we were, all in one place, A generation Lost In Space..."
+
+The minimum version for the Android version is now API 23 (Android 6).
+This will go up soon, since Android is now around API 35 or so.
 
 == ToDo
 
