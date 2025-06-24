@@ -34,7 +34,7 @@ class ExportListState extends State<ExportPage> {
     debugPrint("In ExportListState::build");
     return Scaffold(
         appBar: AppBar(
-            title: Center(child: Text("Export Tracks"))
+            title: const Center(child: Text("Export Tracks"))
         ),
         drawer: NavDrawer(),
         body: FutureBuilder(
@@ -48,10 +48,10 @@ class ExportListState extends State<ExportPage> {
                 );
               }
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
-              if (snapshot.data!.length == 0) {
-                return Center(
+              if (snapshot.data!.isEmpty) {
+                return const Center(
                   child: Text("No tracks yet; add one using 'Track'"),
                 );
               };
