@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:jpstrack/db/database_helper.dart';
 import 'package:jpstrack/model/track.dart';
@@ -33,7 +34,7 @@ class ExportListState extends State<ExportPage> {
     debugPrint("In ExportListState::build");
     return Scaffold(
         appBar: AppBar(
-            title: Center(child: Text("Export Tracks"))
+            title: const Center(child: Text("Export Tracks"))
         ),
         drawer: NavDrawer(),
         body: FutureBuilder(
@@ -47,10 +48,10 @@ class ExportListState extends State<ExportPage> {
                 );
               }
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
-              if (snapshot.data!.length == 0) {
-                return Center(
+              if (snapshot.data!.isEmpty) {
+                return const Center(
                   child: Text("No tracks yet; add one using 'Track'"),
                 );
               };
@@ -135,13 +136,17 @@ class ExportListState extends State<ExportPage> {
     await appDir.create(recursive: true);
     var file = File("${appDir.path}/jpstrack-${track.id}.gpx");
     await file.writeAsString(trackAsGpx);
+    await Clipboard.setData(ClipboardData(text: file.path));
+    if (!mounted) {
+      return;
+    }
     await Navigator.push(
         context,
         MaterialPageRoute(
             builder:  (context) => AlertDialog(
                 title: const Text("Export Complete"),
                 content: Text(
-                    "Exported ${track.steps.length} points to file ${file}"),
+                    "Exported ${track.steps.length} points to file $file. Path copied to clipboard."),
                 actions: <Widget> [
                   TextButton(
                       child: Text("OK"),
