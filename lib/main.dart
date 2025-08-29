@@ -33,6 +33,7 @@ class MapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+		debugShowCheckedModeBanner: false,
         title: 'jpstrack',
         theme: ThemeData(
           primarySwatch: Colors.brown,
