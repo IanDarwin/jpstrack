@@ -1,8 +1,9 @@
-= jpstrack
+= jpstrack: a Map Maker's Data Gatherer
 
 JpsTrack is a Map Maker application,
-a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data
-This program is not a navigation app for getting from point A to point B.
+a GPX-tracking GPS App for creating OpenStreetMap or Google Earth data.
+This is _not_ a navigation app for getting from point A to point B;
+there are better tools for that in almost any app store.
 
 == History
 
@@ -22,7 +23,19 @@ of the code simply because I keep the website in the same repo as the code.
 "So there we were, all in one place, A generation Lost In Space..."
 
 The minimum version for the Android version is now API 23 (Android 6).
-This will go up soon, since Android is now around API 35 or so.
+This goes up all the time.
+
+== Building
+
+If you just want to _use_ this app, there' no need to build it!
+Just visit https://play.google.com/store/apps/details?id=jpstrack.android[]
+in your Android phone's browser.
+
+I will put this app into the Apple Store as well once I get the OAUTH2 working.
+
+But if you do want to build it, you can either open it as a project in Android Studio,
+or from the command line, cd into the top level and type `flutter run` or `flutter build`.
+The latter will need some argument(s), but the help will guide you (try 'apk' for Android).
 
 == ToDo
 

@@ -9,3 +9,4 @@ RELEASE_NOTES.html:	RELEASE_NOTES.adoc
 install:	$(GENERATED)
 	git pull
 	cp -r * /var/www/htdocs/darwinsys.com/jpstrack
+	cp -r * /var/www/htdocs/jpstrack.darwinsys.com
