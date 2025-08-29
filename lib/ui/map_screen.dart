@@ -43,21 +43,30 @@ class _MapState extends State<MapScreen> {
   Track? currentTrack = null;
   Location location = Location();
   late bool _serviceEnabled;
-  double zoom = 20;
   late PermissionStatus _permissionGranted;
   late Stream<LocationData> locationStream;
   late void Function(LocationData locationData) onData;
+  bool paused = false;
+  var labelStyle = TextStyle(fontSize: 28,
+      color: Colors.black54,
+      shadows: [
+        Shadow(offset: Offset(5, 5),
+          blurRadius: 7,
+          color: Colors.grey,
+        )
+      ]);
+  var infoStyle = TextStyle(fontSize: 28);
+  // Starting Location:
+
   LocationData _locationData = LocationData.fromMap(
       {
-        "latitude":51.6,
-        "longitude":0.0,
+        "latitude" : 43.6455269,
+        "longitude":-79.380814,
         'altitude': 0.0,
         "time": 0.0
       }
   );
-  var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
-  var infoStyle = TextStyle(fontSize: 28);
-  bool paused = false;
+  double zoom = 16;
 
   @override
   void initState() {
