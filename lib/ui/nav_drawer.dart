@@ -24,7 +24,7 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             child: Text(
               'JpsTrack Menu',
               textAlign: TextAlign.end,
-              style: TextStyle(color: Colors.black, fontSize: 25),
+              style: TextStyle(color: Colors.black, fontSize: 22),
             ),
             decoration: BoxDecoration(
                 color: Colors.lightGreen,
@@ -65,6 +65,16 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             title: Text('Release Notes'),
             onTap: () async {
               final Uri url = Uri.parse("https://darwinsys.com/jpstrack/RELEASE_NOTES.html");
+              if (!await launchUrl(url)) {
+                throw Exception("Failed to launch browser");
+              }
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Fix Existing Map'),
+            onTap: () async {
+              final Uri url = Uri.parse("https://openstreetmap.org/fixthemap");
               if (!await launchUrl(url)) {
                 throw Exception("Failed to launch browser");
               }
