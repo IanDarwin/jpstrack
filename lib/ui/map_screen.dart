@@ -43,21 +43,30 @@ class _MapState extends State<MapScreen> {
   Track? currentTrack = null;
   Location location = Location();
   late bool _serviceEnabled;
-  double zoom = 20;
   late PermissionStatus _permissionGranted;
   late Stream<LocationData> locationStream;
   late void Function(LocationData locationData) onData;
+  bool paused = false;
+  var labelStyle = TextStyle(fontSize: 28,
+      color: Colors.black54,
+      shadows: [
+        Shadow(offset: Offset(5, 5),
+          blurRadius: 7,
+          color: Colors.grey,
+        )
+      ]);
+  var infoStyle = TextStyle(fontSize: 28);
+  // Starting Location:
+
   LocationData _locationData = LocationData.fromMap(
       {
-        "latitude":51.6,
-        "longitude":0.0,
+        "latitude" : 43.6455269,
+        "longitude":-79.380814,
         'altitude': 0.0,
         "time": 0.0
       }
   );
-  var labelStyle = TextStyle(fontSize: 28, color: Colors.black54);
-  var infoStyle = TextStyle(fontSize: 28);
-  bool paused = false;
+  double zoom = 16;
 
   @override
   void initState() {
@@ -72,6 +81,8 @@ class _MapState extends State<MapScreen> {
   void _initLocation() async {
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
+      await Navigator.push(context,
+      await _showPermissionsDialog("'Use Location' setting to be Enabled"));
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
         return;
@@ -79,11 +90,23 @@ class _MapState extends State<MapScreen> {
     }
 
     _permissionGranted = await location.hasPermission();
+    print(_permissionGranted);
     if (_permissionGranted == PermissionStatus.denied) {
+      print("Showing my dialog for LP");
+      await Navigator.push(context,
+      await _showPermissionsDialog("Location Permissions"));
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
         return;
       }
+    }
+
+    // Yes, please keep mapping running in background.
+    try {
+      await location.enableBackgroundMode(enable: true);
+    } on PlatformException catch (_) {
+      await Navigator.push(context,
+          await _showPermissionsDialog("Background Location"));
     }
 
     // Create listener, used in starting and resuming updates
@@ -97,40 +120,37 @@ class _MapState extends State<MapScreen> {
       });
     };
 
-    // Yes, please keep mapping running in background.
-    try {
-      await location.enableBackgroundMode(enable: true);
-    } on PlatformException catch (_) {
-      await Navigator.push(context,
-          MaterialPageRoute(builder: (context) => AlertDialog(
-              title: const Text("Permission problem"),
-              content: const Text(
-              "Can't enable background saving.\n" +
-              'Please enable "Always Allow" location permission ' +
-              'in "Settings->Apps->jpstrack"'),
-              actions: [
-                TextButton(
-                  child: Text("Settings"),
-                  onPressed: () async {
-                    AppSettings.openAppSettings(type: AppSettingsType.location);
-                  }
-                ),
-                TextButton(
-                    child: Text("Close"),
-                    onPressed: () async {
-                      Navigator.of(context).pop(); // alert
-                    }
-                )
-              ]
-          )));
-    }
-
     //_locationData = await location.getLocation();
     location.changeSettings(
         accuracy: LocationAccuracy.high,
         interval: 10000,
         distanceFilter: 5.0);
     // controller.mapEventStream.listen((event) {  debugPrint("Event: $event"); });
+  }
+
+  Future<MaterialPageRoute<dynamic>> _showPermissionsDialog(String perm) async {
+    print("Building my dialog");
+    return MaterialPageRoute(builder: (context)  => AlertDialog(
+            title: const Text("Permission Disclosure"),
+            content: Text("""
+We need $perm permissions in order to keep building your track file while other apps are running.\n
+Please enable "Always Allow" location permission ' +
+in "Settings->Apps->jpstrack"""),
+            actions: [
+              TextButton(
+                child: Text("Settings"),
+                onPressed: () async {
+                  AppSettings.openAppSettings(type: AppSettingsType.location);
+                }
+              ),
+              TextButton(
+                  child: Text("Close"),
+                  onPressed: () async {
+                    Navigator.of(context).pop(); // alert
+                  }
+              )
+            ]
+        ));
   }
 
   Widget build(BuildContext context) {

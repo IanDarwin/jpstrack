@@ -96,16 +96,4 @@ https://wiki.openstreetmap.org/wiki/Jpstrack[OpenStreetMap Wiki].
 This is a free and open source application. Source is provided for most
 uses, but you may not distribute the app back to Google Play Store or
 other market, as that would lead to fragmentation. Code is at
-https://github.com/IanDarwin; you need the two repos _jpstrack_ and
-_jpstrack.android_.
-
-*Why two source modules?* Each module is a separate project. The code is based
-on an earlier JavaSE version of jpstrack. Since (prior to the move to IntelliJ/Android Studio)
-you couldn't really have
-both a JavaSE and an Android project in the same project, and
-since I refuse to copy-and-paste entire files, I left the original and
-just refer to it.
-The _jpstrack_ module contains the code for saving in GPX format.
-There is a Maven _pom.xml_ file in jpstrack to produce the required jar file.
-Since this isn't worth the trouble of publishing on Maven Central, just copy
-the jar file into the lib folder of the jpstrack.android project.
+https://github.com/IanDarwin/jpstrack.
