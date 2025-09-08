@@ -151,7 +151,7 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
 
   Widget build(BuildContext context) {
     debugPrint("In jpsTrack::MapState::build");
-    if (!(prefs.getBool("key_seen_welcome")??false) {
+    if (!(prefs.getBool("key_seen_welcome")??false)) {
 		showWelcome();
 	}
     controller.mapEventStream.listen((event) { debugPrint(event.toString()); });
