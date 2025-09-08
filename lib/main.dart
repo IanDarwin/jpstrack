@@ -12,13 +12,11 @@ import 'ui/map_screen.dart';
 
 late SharedPreferences prefs;
 late PackageInfo packageInfo;
-late bool seenWelcome;
 DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
-  seenWelcome = prefs.getBool("key_seen_welcome")??false;
   packageInfo = await PackageInfo.fromPlatform();
   await Settings.init();
   DatabaseHelper();
@@ -50,4 +48,5 @@ void showWelcome() async {
   if (!await launchUrl(url)) {
     throw Exception("Failed to launch browser");
   };
+  prefs.setBool("key_seen_welcome", true);
 }

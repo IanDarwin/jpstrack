@@ -16,7 +16,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:jpstrack/main.dart' show prefs, seenWelcome, showWelcome;
+import 'package:jpstrack/main.dart' show prefs, showWelcome;
 import 'package:jpstrack/ui/audio_note.dart';
 import 'package:jpstrack/ui/export_track.dart';
 
@@ -72,10 +72,6 @@ class _MapState extends State<MapScreen> {
   void initState() {
     _initLocation();
     super.initState();
-    if (!seenWelcome) {
-      showWelcome();
-      prefs.setBool("key_seen_welcome", true);
-    }
   }
 
   void _initLocation() async {
@@ -133,9 +129,9 @@ class _MapState extends State<MapScreen> {
     return MaterialPageRoute(builder: (context)  => AlertDialog(
             title: const Text("Permission Disclosure"),
             content: Text("""
-We need $perm permissions in order to keep building your track file while other apps are running.\n
-Please enable "Always Allow" location permission ' +
-in "Settings->Apps->jpstrack"""),
+JpsTrack collects location data because that is obviously its only function; 
+it therefore needs $perm permissions in order to keep building your track file while other apps are running.
+Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""),
             actions: [
               TextButton(
                 child: Text("Settings"),
@@ -155,6 +151,9 @@ in "Settings->Apps->jpstrack"""),
 
   Widget build(BuildContext context) {
     debugPrint("In jpsTrack::MapState::build");
+    if (!(prefs.getBool("key_seen_welcome")??false) {
+		showWelcome();
+	}
     controller.mapEventStream.listen((event) { debugPrint(event.toString()); });
     return Scaffold(
       appBar: AppBar(

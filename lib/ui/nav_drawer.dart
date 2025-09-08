@@ -3,7 +3,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:jpstrack/ui/settings_page.dart';
-import 'package:jpstrack/main.dart' show packageInfo, seenWelcome, showWelcome;
+import 'package:jpstrack/main.dart' show packageInfo, showWelcome;
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -47,7 +47,6 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             title: Text('JpsTrack Intro'),
             onTap: () {
               showWelcome();
-              seenWelcome = true;
             }
           ),
           ListTile(
