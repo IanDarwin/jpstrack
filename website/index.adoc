@@ -1,10 +1,25 @@
 = JPSTrack, a GPS/GPX Tracker
 
-Not the kind of "tracker" you use to find whether or where your spouse is cheating.
+Not the kind of "tracker" you use to find where the airline lost your bags,
+figure out where the cat went this time, or
+determine whether or where your spouse is cheating.
 This program collects mapping data for inclusion into
 https://www.openstreetmap.org/[OpenStreetMap] (the free, editable map of the world),
 https://www.google.com/maps/about/mymaps/[Google Maps],
 or any other application that can import GPX-format track data.
+
+// Image tags here must be no-break (single colon!)
+[options="noheader",cols="1,1,1,1"]
+|====
+|
+image:/images/v2-start.png[]
+|
+image:/images/v2-tracking.png[]
+|
+image:/images/v2-navbar.png[]
+|
+image:/images/v2-export.png[]
+|====
 
 [CAUTION]
 ====
