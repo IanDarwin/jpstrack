@@ -7,11 +7,11 @@ class OsmAuthService {
   final FlutterAppAuth _appAuth = const FlutterAppAuth();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
+  // Configuration - These might come from your Settings Provider
   // Storage keys
   static const String _accessTokenKey = 'osm_access_token';
   static const String _refreshTokenKey = 'osm_refresh_token';
 
-  // Configuration - In a real app, these might come from your Settings Provider
   // The Redirect URI must match what you registered on OSM exactly.
   // Setup AndroidManifest.xml and Info.plist to handle this scheme.
   final String redirectUrl = 'myosmapp://callback'; 
