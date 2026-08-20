@@ -1,5 +1,7 @@
 # OSM OAuth2 Configuration
+# Copy this file to the name without the -sample,
+# and change the clientId and redirectUrl values.
 osm.baseUrl=https://www.openstreetmap.org
 osm.clientId=MY_CLIENT_ID
-osm.redirectUrl=https://jpstrack.darwinsys.com/authok
+osm.redirectUrl=YOUR_REDIRECT_URL
 osm.scopes=write_api,read_prefs
