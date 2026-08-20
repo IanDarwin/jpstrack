@@ -7,6 +7,8 @@ import 'package:jpstrack/main.dart' show prefs;
 /// Activity for Settings.
 ///
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
 
   @override
   SettingsState createState() => SettingsState();
@@ -61,8 +63,9 @@ class SettingsState extends State<SettingsPage> {
               keyboardType: TextInputType.url,
               validator: (url) {
                 // XXX Try uri.parse?
-                if (url != null && url.isNotEmpty)
+                if (url != null && url.isNotEmpty) {
                   return null;
+                }
                 return "URL cannot be empty";
               },
               errorColor: Colors.redAccent,

@@ -6,6 +6,8 @@ import 'package:jpstrack/ui/settings_page.dart';
 import 'package:jpstrack/main.dart' show packageInfo, showWelcome;
 
 class NavDrawer extends StatelessWidget {
+  const NavDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     var aboutBoxChildren = [
@@ -21,16 +23,16 @@ This program is <em>not</em> a navigation app for getting from point A to point 
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            child: Text(
-              'JpsTrack Menu',
-              textAlign: TextAlign.end,
-              style: TextStyle(color: Colors.black, fontSize: 22),
-            ),
             decoration: BoxDecoration(
                 color: Colors.lightGreen,
                 image: DecorationImage(
                     fit: BoxFit.none,
                     image: AssetImage('images/logo.png'))
+            ),
+            child: Text(
+              'JpsTrack Menu',
+              textAlign: TextAlign.end,
+              style: TextStyle(color: Colors.black, fontSize: 22),
             ),
           ),
           AboutListTile(

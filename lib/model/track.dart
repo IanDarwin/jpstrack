@@ -4,7 +4,7 @@ class Track {
 	int id;
 	DateTime time;
 	List<LocationData> steps =[];
-	Track(int this.id, DateTime this.time);
+	Track(this.id, this.time);
 
   void add(LocationData loc) {
 		steps.add(loc);

@@ -1,29 +1,40 @@
-import 'dart:convert';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:properties/properties.dart';
 
 class OsmAuthService {
+  static final OsmAuthService instance = OsmAuthService();
+
   final FlutterAppAuth _appAuth = const FlutterAppAuth();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
-  // Configuration - These might come from your Settings Provider
-  // Storage keys
+
+  // Storage keys (not values) into the secureStorage.
   static const String _accessTokenKey = 'osm_access_token';
   static const String _refreshTokenKey = 'osm_refresh_token';
 
+  // Configuration - These might come from your Settings Provider
   // The Redirect URI must match what you registered on OSM exactly.
   // Setup AndroidManifest.xml and Info.plist to handle this scheme.
-  final String redirectUrl = 'myosmapp://callback'; 
+  // The actual values are loaded from properties.
+  String redirectUrl = 'myosmapp://callback'; 
   
   // Default to Production
   String _baseUrl = 'https://www.openstreetmap.org';
   String _clientId = 'YOUR_PRODUCTION_CLIENT_ID'; 
+  List<String> _scopes = ['write_api', 'read_prefs'];
 
   /// Call this when the user changes the URL in settings
-  void configure(String baseUrl, String clientId) {
-    _baseUrl = baseUrl;
-    _clientId = clientId;
+  void configure(Properties properties) {
+    _baseUrl = properties.get('osm.baseUrl') ?? _baseUrl;
+    _clientId = properties.get('osm.clientId') ?? _clientId;
+    redirectUrl = properties.get('osm.redirectUrl') ?? redirectUrl;
+    
+    final scopesString = properties.get('osm.scopes');
+    if (scopesString != null) {
+      _scopes = scopesString.split(',').map((e) => e.trim()).toList();
+    }
   }
 
   /// Returns a valid Access Token, refreshing it if necessary.
@@ -67,7 +78,7 @@ class OsmAuthService {
             authorizationEndpoint: authorizationEndpoint,
             tokenEndpoint: tokenEndpoint,
           ),
-          scopes: ['write_api', 'read_prefs'], // Add scopes you registered
+          scopes: _scopes,
           
           // PKCE is enabled by default in flutter_appauth
         ),

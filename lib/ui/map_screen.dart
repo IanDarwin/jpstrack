@@ -29,7 +29,7 @@ import '../constants.dart';
 class MapScreen extends StatefulWidget {
   final String title;
 
-  MapScreen({required this.title}) : super();
+  const MapScreen({super.key, required this.title});
 
   @override
   _MapState createState() => _MapState();
@@ -40,7 +40,7 @@ class _MapState extends State<MapScreen> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   final altitudeFormat = NumberFormat("#####.0#", "en_US");
   MapController controller = MapController();
-  Track? currentTrack = null;
+  Track? currentTrack;
   Location location = Location();
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
@@ -149,6 +149,7 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
         ));
   }
 
+  @override
   Widget build(BuildContext context) {
     debugPrint("In jpsTrack::MapState::build");
     if (!(prefs.getBool("key_seen_welcome")??false)) {
@@ -184,7 +185,6 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    child: Text("Track"),
                     onPressed: currentTrack != null ? null :  () {
                       // Redraw first, start may take a while if net slow/offline
                       setState(() {
@@ -192,9 +192,9 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
                       });
                       _startTracking();
                     },
+                    child: Text("Track"),
                   ),
                   ElevatedButton(
-                    child: Text(paused?"Resume":"Pause"),
                     onPressed: currentTrack == null ? null : () {
                       if (paused) {
                         _resumeTracking();
@@ -205,9 +205,9 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
                         paused = !paused;
                       });
                     },
+                    child: Text(paused?"Resume":"Pause"),
                   ),
                   ElevatedButton(
-                    child: Text("Stop"),
                     onPressed: currentTrack == null ? null :  () {
                       debugPrint("Stopping...");
                       _stopTracking();
@@ -215,6 +215,7 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) => ExportPage()));
                     },
+                    child: Text("Stop"),
                   ),
                   ElevatedButton(onPressed: () {
                     debugPrint("Export requested");

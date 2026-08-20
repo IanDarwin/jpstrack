@@ -16,6 +16,8 @@ import '../io/upload_gpx.dart';
 /// Activity for Export
 ///
 class ExportPage extends StatefulWidget {
+  const ExportPage({super.key});
+
 
   @override
   ExportListState createState() => ExportListState();
@@ -25,7 +27,7 @@ class ExportPage extends StatefulWidget {
 class ExportListState extends State<ExportPage> {
   late Future<List<Track>> tracks;
 
-  getTracks() async {
+  Future<void> getTracks() async {
     tracks = DatabaseHelper().getTracks();
   }
 
@@ -54,7 +56,7 @@ class ExportListState extends State<ExportPage> {
                 return const Center(
                   child: Text("No tracks yet; add one using 'Track'"),
                 );
-              };
+              }
               debugPrint("ListPage: n=${snapshot.data!.length}");
               debugPrint("In export builder with ${snapshot.data!.length} tracks");
               return ListView.builder(
@@ -62,7 +64,7 @@ class ExportListState extends State<ExportPage> {
                   itemBuilder: (context, index) {
                     var track = snapshot.data![index];
                     return ListTile(
-                      title: Text("${dateFormat.format(track.time)}"),
+                      title: Text(dateFormat.format(track.time)),
                       subtitle: Text("Track with ${track.steps.length} waypoints"),
                       trailing: Wrap(children: [
                         IconButton(
