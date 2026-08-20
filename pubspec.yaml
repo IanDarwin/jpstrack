@@ -19,14 +19,13 @@ dependencies:
   flutter_map: ^8.2.1
   flutter_settings_screens: ^0.3.4
   flutter_secure_storage: ^11.0.0
-  flutter_widget_from_html: ^0.17.0
-  geolocator: ^14.0.2
+  flutter_widget_from_html_core: ^0.17.0
   http: ^1.2.2
   image_picker: ^1.1.2
   intl: ^0.20.2
   latlong2: any
   location: ^10.0.2
-  oauth2: ^2.0.3
+  oauth2: ^2.0.5
   path_provider: ^2.0.6
   path: any
   properties: 2.1.1
