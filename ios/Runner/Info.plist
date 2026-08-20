@@ -12,6 +12,17 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>jpstrack</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>myosmapp</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To get your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
