@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:jpstrack/ui/settings_page.dart';
@@ -39,7 +39,7 @@ This program is <em>not</em> a navigation app for getting from point A to point 
             icon: const Icon(Icons.info),
             applicationIcon: const FlutterLogo(),
             applicationName: 'jpsTrack',
-            applicationVersion: 'Version ${packageInfo.version} Build ${int.parse(packageInfo.buildNumber)}, August 2024',
+            // applicationVersion: 'Version ${packageInfo.version} Build ${int.parse(packageInfo.buildNumber)}, August 2024',
             applicationLegalese:
               '\u{a9} 2007-2024 Rejminet Group Inc.',
             aboutBoxChildren: aboutBoxChildren,

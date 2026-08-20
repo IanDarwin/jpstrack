@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+//import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:properties/properties.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +14,7 @@ import 'package:jpstrack/service/osm_auth_service.dart';
 import 'package:jpstrack/ui/map_screen.dart';
 
 late SharedPreferences prefs;
-late PackageInfo packageInfo;
+// late PackageInfo packageInfo;
 late Properties oauthConfig;
 DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
@@ -24,7 +24,7 @@ DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
-  packageInfo = await PackageInfo.fromPlatform();
+  // packageInfo = await PackageInfo.fromPlatform();
   
   final propString = await rootBundle.loadString('assets/oauth2.properties');
   oauthConfig = Properties.fromString(propString);

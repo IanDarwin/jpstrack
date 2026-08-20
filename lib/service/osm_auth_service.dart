@@ -14,16 +14,16 @@ class OsmAuthService {
   static const String _accessTokenKey = 'osm_access_token';
   static const String _refreshTokenKey = 'osm_refresh_token';
 
-  // Configuration - These might come from your Settings Provider
+  // Configuration - These come from the Properties file in assets.
   // The Redirect URI must match what you registered on OSM exactly.
   // Setup AndroidManifest.xml and Info.plist to handle this scheme.
-  // The actual values are loaded from properties.
+  // N.B. The actual values are loaded from properties; do NOT code yours here.
   String redirectUrl = 'myosmapp://callback'; 
   
   // Default to Production
   String _baseUrl = 'https://www.openstreetmap.org';
   String _clientId = 'YOUR_PRODUCTION_CLIENT_ID'; 
-  List<String> _scopes = ['write_api', 'read_prefs'];
+  List<String> _scopes = ['write_gpx', 'read_gpx'];
 
   /// Call this when the user changes the URL in settings
   void configure(Properties properties) {
