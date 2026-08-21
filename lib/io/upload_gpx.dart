@@ -129,6 +129,7 @@ class UploadGpxScreenState extends State<UploadGpxScreen> {
       var request = MultipartRequest('POST', Uri.parse(uploadUrl))
         ..files.add(mp)
         ..headers['Authorization'] = 'Bearer $bearerAuth'
+        ..headers['User-Agent'] = 'JpsTrack (https://jpstrack.darwinsys.com)'
         ..fields['file'] = 'filename1'
         ..fields['description'] = 'GPX Map Track created by JPSTrack v2'
         ..fields['visibility'] = 'public';
