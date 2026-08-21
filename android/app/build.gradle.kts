@@ -44,7 +44,7 @@ android {
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
         // place correct redirectScheme
-        manifestPlaceholders["appAuthRedirectScheme"] = "com.redirectScheme.com"
+        manifestPlaceholders["appAuthRedirectScheme"] = "osm"
 
     }
 
