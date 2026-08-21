@@ -34,10 +34,10 @@ class ExportListState extends State<ManageTracksPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("In ExportListState::build");
+    debugPrint("In ManageTracksState::build");
     return Scaffold(
         appBar: AppBar(
-            title: const Center(child: Text("Export Tracks"))
+            title: const Center(child: Text("Manage Tracks"))
         ),
         drawer: NavDrawer(),
         body: FutureBuilder(

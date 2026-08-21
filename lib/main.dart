@@ -28,7 +28,8 @@ void main() async {
   
   final propString = await rootBundle.loadString('assets/oauth2.properties');
   oauthConfig = Properties.fromString(propString);
-  OsmAuthService.instance.configure(oauthConfig);
+  OsmAuthService.instance.configure(oauthConfig, prodMode: true); // Defaulting to false as per legacy code
+  await OsmAuthService.instance.init();
 
   await Settings.init();
   DatabaseHelper();

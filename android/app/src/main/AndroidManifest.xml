@@ -43,15 +43,6 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <!-- App Link intent-filter -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="osm"
-                    android:host="jpstrack"
-                    android:pathPattern="/authok" />
-            </intent-filter>
         </activity>
         <!-- Used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

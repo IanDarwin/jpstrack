@@ -5,6 +5,8 @@ class Constants {
   static const String KEY_LOGIN_NAME = "loginName";
   static const String KEY_CUSTOM_URL = "custom url";
 
+  static const USER_AGENT = 'JpsTrack (https://jpstrack.darwinsys.com)';
+
   static const String URL_TILES_TEMPLATE = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
   static const String URL_ABOUT = "https://darwinsys.com/jpstrack";
