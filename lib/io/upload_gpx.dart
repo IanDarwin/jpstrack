@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:app_links/app_links.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -66,9 +65,9 @@ class UploadGpxScreenState extends State<UploadGpxScreen> {
     authenticate();
   }
 
-  // XXX to be called from the Upload button when in jpstrack
+  // Called from the Upload button when in jpstrack
   // This method launches the browser URL for validation,
-  // then terminatess; the app should be called again when
+  // then terminates; the app should be called again when
   // the redirect URL is successfully interpreted.
   Future<void> authenticate() async {
     await launchUrl(authorizationUrl);
@@ -143,7 +142,7 @@ class UploadGpxScreenState extends State<UploadGpxScreen> {
       var response = await client!.send(request);
 
       if (response.statusCode == 200) {
-        return 'Sucessful upload.';
+        return 'Successful upload.';
       }  else {
         var message = 'Failed to upload GPX data: ${response.statusCode} ${response.reasonPhrase}';
         debugPrint(message);

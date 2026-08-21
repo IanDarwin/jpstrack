@@ -21,7 +21,7 @@ class OsmAuthService {
   String redirectUrl = 'osm://callback';
   
   // Default to Production
-  String _baseUrl = 'https://www.openstreetmap.org';
+  String _baseUrl = 'https://api.openstreetmap.org';
   String _clientId = 'YOUR_PRODUCTION_CLIENT_ID'; 
   List<String> _scopes = ['write_gpx', 'read_gpx'];
 
@@ -140,7 +140,7 @@ class OsmAuthService {
     await _secureStorage.delete(key: _refreshTokenKey);
   }
 
-  /// Example of how to use the token in an upload request
+  /// Upload a Track using the token in an upload request
   Future<void> uploadChangeset(String xmlData) async {
     String? token = await getValidAccessToken();
     
@@ -167,4 +167,8 @@ class OsmAuthService {
       }
     }
   }
+}
+
+void main() async {
+  Properties props = await Properties.fromFile("assets/oauth2.properties");
 }
