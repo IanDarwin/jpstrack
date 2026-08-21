@@ -1,5 +1,13 @@
 = jpstrack, the Open Streetmap and GPX data collector
 
+== Version 2.1.0 - 2026-08-21
+
+With apologies for the delay in reacting to the complete change in authentication by OSM, our upload is working again.
+You can upload new tracks, or any tracks you previously saved.
+Just go to the Track List page and click the up arrow beside the track.
+The first time, you will have to log in with your OpenStreetMap account and authorize JPSTrack
+to upload GPX tracks. Subsequent uploads should not require you to login again, unless your authorization expires.
+
 == Version 2.0.2 - 2025-06-23
 
 Minor fix release:

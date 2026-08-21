@@ -222,7 +222,7 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => ManageTracksPage()));
                   },
-                    child: const Text("Export"),
+                    child: const Text("Manage Tracks"),
                   )
                 ]),
 
