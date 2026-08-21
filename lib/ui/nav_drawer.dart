@@ -89,16 +89,6 @@ This program is <em>not</em> a navigation app for getting from point A to point 
                   builder: (context) => (SettingsPage())));
             },
           ),
-          ListTile(
-            leading: Icon(Icons.telegram_sharp),
-            title: Text('Test OSM Redirect'),
-            onTap: () async {
-              final Uri url = Uri.parse("osm://jpstrack/authok");
-              if (!await launchUrl(url)) {
-                throw Exception("Failed to launch Redirect");
-              }
-            },
-          ),
         ],
       ),
     );
