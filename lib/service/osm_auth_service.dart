@@ -18,7 +18,7 @@ class OsmAuthService {
   // The Redirect URI must match what you registered on OSM exactly.
   // Setup AndroidManifest.xml and Info.plist to handle this scheme.
   // N.B. The actual values are loaded from properties; do NOT code yours here.
-  String redirectUrl = 'myosmapp://callback'; 
+  String redirectUrl = 'osm://callback';
   
   // Default to Production
   String _baseUrl = 'https://www.openstreetmap.org';
