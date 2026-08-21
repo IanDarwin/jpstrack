@@ -10,21 +10,22 @@ import 'package:jpstrack/io/gpx.dart';
 import 'package:jpstrack/ui/nav_drawer.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../constants.dart';
 import '../io/upload_gpx.dart';
 
-/// Activity for Export
+/// Activity for managing tracks. Shows a list of tracks,
+/// each with three icon buttons:
+/// - Upload to OSM via upload (via UploadGpxScreen w/ OAUTH2 login)
+/// - Export to /sdcard or iOS equivalent.
+/// - Delete the track.
 ///
-class ExportPage extends StatefulWidget {
-  const ExportPage({super.key});
-
+class ManageTracksPage extends StatefulWidget {
+  const ManageTracksPage({super.key});
 
   @override
   ExportListState createState() => ExportListState();
-
 }
 
-class ExportListState extends State<ExportPage> {
+class ExportListState extends State<ManageTracksPage> {
   late Future<List<Track>> tracks;
 
   Future<void> getTracks() async {
@@ -83,6 +84,10 @@ class ExportListState extends State<ExportPage> {
                             }),
                         IconButton(
                             constraints: const BoxConstraints(maxWidth: 40),
+                            icon: const Icon(Icons.drive_file_rename_outline_sharp),
+                            onPressed: null),
+                        IconButton(
+                            constraints: const BoxConstraints(maxWidth: 40),
                             icon: const Icon(Icons.delete_forever),
                             onPressed: () async {
                               await delete_track(track);
@@ -94,35 +99,6 @@ class ExportListState extends State<ExportPage> {
             }
         )
     );
-  }
-
-  Future<void> uploadToOSM(Track track) async {
-    try {
-      var url = Uri.parse(Constants.URL_UPLOAD);
-      String trackAsGpx = Gpx.buildGPXString(track);
-      // String username = SettingsScreen.getLoginName();
-      // String passwd = 'abc.123';
-      String oauthToken = "fiddlesticks"; // XXX
-      Map<String,String> headerMap = {
-        "Authorization": "Bearer $oauthToken",
-		"Content-Type": "application/gpx+xml",
-		"User-Agent": "JPSTrack https://darwinsys.com/jpstrack",
-      };
-      var response = await http.post(url,
-          body: trackAsGpx,
-          headers: headerMap);
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      // Check the response status
-      if (response.statusCode == 200) {
-        print('Uploaded successfully');
-      } else {
-        print('Upload failed with status ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error uploading data: $e');
-    }
   }
 
   void exportTrackToFile(Track track) async {

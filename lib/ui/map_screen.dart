@@ -18,7 +18,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:jpstrack/main.dart' show prefs, showWelcome;
 import 'package:jpstrack/ui/audio_note.dart';
-import 'package:jpstrack/ui/export_track.dart';
+import 'package:jpstrack/ui/manage_tracks_page.dart';
 
 import '../constants.dart';
 
@@ -153,8 +153,8 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
   Widget build(BuildContext context) {
     debugPrint("In jpsTrack::MapState::build");
     if (!(prefs.getBool("key_seen_welcome")??false)) {
-		showWelcome();
-	}
+		  showWelcome();
+	  }
     controller.mapEventStream.listen((event) { debugPrint(event.toString()); });
     return Scaffold(
       appBar: AppBar(
@@ -173,7 +173,7 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
         children: [
 
           TileLayer(
-            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            urlTemplate: Constants.URL_TILES_TEMPLATE,
             userAgentPackageName: 'com.darwinsys.jpstrack.devel',
           ),
           Center(child: Icon(Icons.add, size:64)),
@@ -213,14 +213,14 @@ Please enable "Always Allow" location permission in "Settings->Apps->jpstrack"""
                       _stopTracking();
                       // Let's go directly to the Export page now!
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => ExportPage()));
+                          builder: (context) => ManageTracksPage()));
                     },
                     child: Text("Stop"),
                   ),
                   ElevatedButton(onPressed: () {
                     debugPrint("Export requested");
                     Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ExportPage()));
+                        builder: (context) => ManageTracksPage()));
                   },
                     child: const Text("Export"),
                   )
